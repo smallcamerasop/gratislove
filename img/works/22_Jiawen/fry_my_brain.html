@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fry my brain</title>
+<style>
+  :root{--bg:#0f172a;--fg:#e6edf3}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#0fffc3,#2c1954);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+  #game{position:relative;overflow:hidden;width:100vw;height:100vh;cursor:none}
+  .brain{position:absolute;transform:translate(-50%,-50%);font-size:36px;pointer-events:none;z-index:40;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+  .brain{transition:transform .3s cubic-bezier(0.25,1,0.5,1)}
+  .enemy{position:absolute;font-size:36px;z-index:20;-webkit-user-select:none;-ms-user-select:none;user-select:none;pointer-events:none;will-change:transform}
+
+  .penalty{position:absolute;pointer-events:none;z-index:10;opacity:0;transform:translate(-50%,-50%) scale(0.95);transition:opacity .25s ease, transform .35s ease, filter .35s ease;filter:blur(0px);-webkit-filter:blur(0px)}
+  .penalty img, .penalty video{max-width:240px;max-height:160px;display:block;border-radius:0px;box-shadow:0 6px 18px rgba(0,0,0,.5)}
+  .penalty{position:absolute;pointer-events:none;z-index:10;opacity:0;transform:translate(-50%,-50%) scale(0.95);transition:opacity .25s ease, transform .35s ease, filter .35s ease;-webkit-filter:blur(0px);filter:blur(0px)}
+  #hud{position:fixed;left:12px;top:12px;z-index:60;background:rgba(0,0,0,.25);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);padding:8px 10px;border-radius:0px}
+
+  .food{position:absolute;width:10px;height:10px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:30;box-shadow:0 2px 6px rgba(0,0,0,.35);cursor:none;pointer-events:none;transition:transform .12s ease, opacity .2s;animation:food-flash .6s ease-in-out infinite alternate}
+  .food .food-label{position:absolute;top:18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:9px;color:#fff;opacity:.7;pointer-events:none}
+  .food.red{background:linear-gradient(180deg,#ff6b6b,#ff3b3b)}
+  .food.yellow{background:linear-gradient(180deg,#ffd36b,#ffc107)}
+  .food.green{background:linear-gradient(180deg,#34d399,#00cf83)}
+  @keyframes food-flash{0%{opacity:.25;transform:scale(1);box-shadow:0 0 6px 2px rgba(255,255,255,.5)}100%{opacity:1;transform:scale(1.15);box-shadow:0 0 12px 3px rgba(255,255,255,.9)}}
+  .hud-row{margin-top:6px}
+  .cockroach{pointer-events:none;will-change:transform}
+  .bug-wrap{position:absolute;pointer-events:none;will-change:transform}
+  .bug-inner{display:flex;align-items:center;justify-content:center}
+  @keyframes bug-bob {0%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-6px) rotate(-6deg)}100%{transform:translateY(0) rotate(0deg)}}
+  .brain-hit{transition:transform .12s ease, filter .18s ease;transform-origin:center;filter:drop-shadow(0 6px 12px rgba(255,40,40,.18))}
+  #overlay{position:fixed;top:0;right:0;bottom:0;left:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:80;opacity:0;pointer-events:none;transition:opacity .2s}
+  #overlay.show{opacity:1;pointer-events:auto}
+  #overlay .panel{background:#fff;border-radius:8px;max-width:90vw;max-height:80vh;overflow:auto;padding:10px}
+  #overlay img, #overlay video{max-width:80vw;max-height:70vh;display:block}
+  button{appearance:none;border:0;background:#0ea5a3;color:white;padding:6px 10px;border-radius:6px;cursor:pointer}
+  /* Loading screen */
+  #loadScreen{position:fixed;inset:0;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#0fffc3,#2c1954);color:#e6edf3;font-family:system-ui;transition:opacity .4s}
+  #loadScreen.hidden{opacity:0;pointer-events:none}
+  #loadStatus{margin-top:16px;font-size:14px;opacity:.7}
+  #instructions{margin-top:20px;font-size:14px;line-height:1.8;opacity:.85;text-align:center;padding:0;max-width:320px}
+  #instructions li{list-style:none;padding:0;margin:4px 0}
+  #bgPicker{display:flex;gap:10px;margin-top:16px;justify-content:center}
+  #bgPicker button{width:28px;height:28px;border-radius:50%;border:1px solid rgb(255, 255, 255);padding:0;cursor:pointer;transition:border-color .2s,transform .15s}
+  #bgPicker button:hover{transform:scale(1.15)}
+  #bgPicker button.active{border:2px solid #fff}
+  #startBtn{margin-top:24px;font-size:16px;padding:14px 36px;border-radius:30px;background:none;color:#fff;border:1px solid #fff;cursor:pointer;opacity:.3;pointer-events:none;transition:opacity .3s,transform .2s}
+  #startBtn.ready{opacity:1;pointer-events:auto}
+  #startBtn.ready:hover{transform:scale(1.05)}
+</style>
+</head>
+<body>
+<div id="loadScreen">
+  <div style="font-size:64px">🧠</div>
+  <ul id="instructions">
+    <li> 🟢🟡🔴 </li>
+    <li> eat brain food to grow your brain </li>
+    <li> 👂👀👋 </li>
+    <li> avoid enemies </li>
+    <li> 🪳🪳🪳 </li>
+    <li> be careful of cockroaches! </li>
+  </ul>
+  <div id="bgPicker">
+    <button data-bg="linear-gradient(180deg,#373737,#101010)" style="background:#252525"></button>
+    <button data-bg="linear-gradient(180deg,#ff7676,#db4d00)" style="background:#e05a3a"></button>
+    <button data-bg="linear-gradient(180deg,#0fffc3,#2c1954)" style="background:#0fffc3" class="active"></button>
+    <button data-bg="linear-gradient(180deg,#2c1954,#000335)" style="background:#231841"></button>
+    <button data-bg="linear-gradient(180deg,#4a1942,#1f0004)" style="background:#350e23"></button>
+  </div>
+  <div id="loadStatus">Loading...</div>
+  <button id="startBtn">start</button>
+</div>
+
+<div id="game" tabindex="0" style="display:none">
+  <div id="brain" class="brain">🧠</div>
+</div>
+
+<div id="hud" style="display:none">
+  <div>🧠 <span id="brainSizeDisplay">1.00</span></div>
+</div>
+
+<div id="overlay" aria-hidden="true">
+  <div class="panel" id="panelContent"></div>
+</div>
+
+<script>
+
+const CONFIG = {
+  penaltySoundUrl: 'https://cdn.pixabay.com/audio/2022/03/24/audio_c3a1d53e44.mp3#t=0,5',
+  enemyEmojisApi: null,
+  spawnIntervalMs: 250, 
+  maxEnemies: 100       
+};
+// Map enemy emoji to penalty behavior
+CONFIG.penaltyMap = {
+  '👂': 'mosquito',
+  '👀': 'cockroach',
+  '👋': 'rain'
+};
+
+CONFIG.eatSoundUrl = 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb630cc098.mp3#t=0,1'; // sound when eating
+CONFIG.foodSpawnIntervalMs = 2000; // ms between food spawns
+CONFIG.foodLifespanMs = 5000; // how long food stays on screen
+CONFIG.foodTypes = [
+  {cls: 'red', label: 'brain food', grow: 0.2},
+  {cls: 'yellow', label: 'brain food', grow: 0.15},
+  {cls: 'green', label: 'brain food', grow: 0.1}
+];
+
+/* Minimal helper to fetch remote emoji list if provided */
+async function loadEmojiList() {
+  if (!CONFIG.enemyEmojisApi) return ['👂','👀','👋'];
+  try {
+    const r = await fetch(CONFIG.enemyEmojisApi);
+    if (!r.ok) throw new Error('bad');
+    const arr = await r.json();
+    if (Array.isArray(arr) && arr.length) return arr;
+  } catch(e){ console.warn('emoji API failed, using defaults', e) }
+  return ['👂','👀','👋'];
+}
+
+/* Game state */
+const game = document.getElementById('game');
+const brainEl = document.getElementById('brain');
+const overlay = document.getElementById('overlay');
+const panel = document.getElementById('panelContent');
+const brainSizeEl = document.getElementById('brainSizeDisplay');
+
+let penaltyCount = 0;
+let paused = false;
+let gameStartTime = 0; 
+let enemyEmojis = [];
+let enemies = [];
+let spawnTimer = null;
+let lastFrame = performance.now();
+let audio = null;
+/* Food state */
+let foods = [];
+let foodSpawnTimer = null;
+let cockroaches = []; 
+let brainScale = 1;
+const maxBrainScale = 300;
+const minBrainScale = 0.6;
+
+let _audioCtx = null;
+const _audioBuffers = {};
+function getAudioCtx() {
+  if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return _audioCtx;
+}
+function withTimeout(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
+  ]);
+}
+async function preloadAudio(key, url) {
+  if (!url) return;
+  try {
+    const fetchUrl = url.split('#')[0]; // strip media fragment
+    const resp = await withTimeout(fetch(fetchUrl), 5000);
+    const buf = await resp.arrayBuffer();
+    const ctx = getAudioCtx();
+    _audioBuffers[key] = await ctx.decodeAudioData(buf);
+  } catch(e) { console.warn('preload failed:', key, e); }
+}
+
+function playBuffer(key) {
+  const buffer = _audioBuffers[key];
+  if (!buffer) return;
+  try {
+    const ctx = getAudioCtx();
+    if (ctx.state === 'suspended') ctx.resume();
+    const src = ctx.createBufferSource();
+    src.buffer = buffer;
+    src.connect(ctx.destination);
+    src.start(0);
+  } catch(e) {}
+}
+
+function playEatSound() {
+  playBuffer('eat');
+}
+
+function spawnFood() {
+  if (paused) return;
+  const t = CONFIG.foodTypes[Math.floor(Math.random()*CONFIG.foodTypes.length)];
+  const f = document.createElement('div');
+  f.className = `food ${t.cls}`;
+
+
+  // position inside game bounds (keep inside padding)
+  const gw = Math.max(120, game.clientWidth);
+  const gh = Math.max(120, game.clientHeight);
+  const left = Math.random() * (gw - 80) + 40;
+  const top = Math.random() * (gh - 80) + 40;
+  f.style.left = `${left}px`;
+  f.style.top = `${top}px`;
+
+  game.appendChild(f);
+
+  const obj = {el: f, type: t};
+  foods.push(obj);
+
+  // auto-remove after lifespan
+  obj.timeout = setTimeout(() => {
+    removeFood(obj);
+  }, CONFIG.foodLifespanMs + Math.random()*1200);
+}
+
+function removeFood(obj) {
+  if (!obj) return;
+  clearTimeout(obj.timeout);
+  try { obj.el.remove(); } catch(e){}
+  foods = foods.filter(x => x !== obj);
+}
+
+function eatFood(obj) {
+  if (!obj) return;
+  // grow brain
+  brainScale = Math.min(maxBrainScale, brainScale + (obj.type.grow || 0.08));
+  brainEl.style.transform = `translate(-50%,-50%) scale(${brainScale}) rotate(${brainRotation}deg)`;
+  brainSizeEl.textContent = brainScale.toFixed(2);
+  playEatSound();
+
+  obj.el.style.transform = 'scale(1.2)';
+  obj.el.style.opacity = '0';
+  setTimeout(() => removeFood(obj), 180);
+}
+
+function playPenaltySound() {
+  if (_audioBuffers['penalty']) {
+    playBuffer('penalty');
+  } else {
+    // fallback beep via WebAudio
+    try {
+      const ctx = getAudioCtx();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.value = 880;
+      o.connect(g);
+      g.connect(ctx.destination);
+      g.gain.value = 0.0001;
+      o.start();
+      g.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.18);
+      setTimeout(()=>{ try{ o.stop(); }catch(e){} }, 220);
+    } catch(e){}
+  }
+}
+
+function showPenaltyInBackground({type='image', url}) {
+  const p = document.createElement('div');
+  p.className = 'penalty';
+  const gw = game.clientWidth;
+  const gh = game.clientHeight;
+  const left = Math.random() * gw;
+  const top = Math.random() * gh;
+  p.style.left = `${left}px`;
+  p.style.top = `${top}px`;
+
+  if (type === 'video') {
+    const v = document.createElement('video');
+    v.src = url;
+    v.autoplay = true;
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    p.appendChild(v);
+    // try to start playback immediately; some browsers require calling play()
+    try { v.play().catch(()=>{}); } catch(e){}
+  } else {
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = 'penalty';
+    img.loading = 'lazy';
+    p.appendChild(img);
+  }
+
+  game.appendChild(p);
+
+  // animate in
+  requestAnimationFrame(() => {
+    p.style.opacity = '1';
+    p.style.transform = 'translate(-50%,-50%) scale(1)';
+    p.style.filter = 'blur(0px)';
+  });
+
+  // remove after a short time
+  setTimeout(() => {
+    p.style.opacity = '0';
+    p.style.transform = 'translate(-50%,-50%) scale(0.95)';
+    setTimeout(() => p.remove(), 450);
+  }, 2200 + Math.random()*1200);
+}
+
+/* Show overlay with image or video; auto-hide after a few seconds */
+function showPenaltyOverlay({type='image', url}) {
+  panel.innerHTML = '';
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden','false');
+
+  if (type === 'video') {
+    const v = document.createElement('video');
+    v.src = url;
+    v.controls = true;
+    v.autoplay = true;
+    // mute before attempting autoplay so browsers allow playback, user can unmute via controls
+    v.muted = true;
+    v.style.maxWidth = '90vw';
+    v.style.borderRadius = '0px';
+    panel.appendChild(v);
+    try { v.play().catch(()=>{}); } catch(e){}
+  } else {
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = 'penalty';
+    img.loading = 'lazy';
+    panel.appendChild(img);
+  }
+
+  const btn = document.createElement('div');
+  btn.style.marginTop = '8px';
+  btn.innerHTML = '<button id="closeBtn">Close</button>';
+  panel.appendChild(btn);
+  document.getElementById('closeBtn').addEventListener('click', hideOverlay);
+
+  setTimeout(hideOverlay, 2500);
+}
+
+function hideOverlay() {
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden','true');
+  panel.innerHTML = '';
+}
+
+/* Handle collisions with enemy objects to select penalty by emoji */
+function handleCollisionWithEnemy(enemy) {
+  // increment penalty count and update HUD
+  penaltyCount++;
+  brainSizeEl.textContent = brainScale.toFixed(2);
+
+  // play generic penalty sound as a base
+  playPenaltySound();
+
+  const em = enemy && enemy.emoji ? enemy.emoji : null;
+  const kind = (em && CONFIG.penaltyMap[em]) ? CONFIG.penaltyMap[em] : null;
+
+  switch(kind) {
+    case 'mosquito':
+      penaltyMosquito(em);
+      break;
+    case 'cockroach':
+      penaltyCockroach(em);
+      break;
+    case 'rain':
+      penaltyRain(em);
+      break;
+    default:
+      // fallback: show image or video in background
+      if (Math.random() < 0.35 && CONFIG.penaltyVideoUrl) showPenaltyInBackground({type:'video', url:CONFIG.penaltyVideoUrl});
+      else if (CONFIG.penaltyImageUrl) showPenaltyInBackground({type:'image', url:CONFIG.penaltyImageUrl});
+      break;
+  }
+}
+
+/* Penalty: mosquito — just play the penalty sound */
+function penaltyMosquito(emoji) {
+  playPenaltySound();
+}
+
+/* Penalty: scream sound / overlay */
+function penaltyScream(emoji) {
+  // try configured scream sound, otherwise try a harsher WebAudio tone
+  try {
+    if (CONFIG.screamSoundUrl) {
+      const a = new Audio(CONFIG.screamSoundUrl);
+      a.crossOrigin = 'anonymous';
+      a.play().catch(()=>{});
+    } else {
+      // WebAudio harsher scream-ish effect (quick noise burst)
+      const ctx = new (window.AudioContext||window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sawtooth';
+      o.frequency.value = 180 + Math.random()*240;
+      o.connect(g);
+      g.connect(ctx.destination);
+      g.gain.value = 0.0001;
+      o.start();
+      g.gain.exponentialRampToValueAtTime(0.35, ctx.currentTime + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.8);
+      setTimeout(()=>{ try{ o.stop(); ctx.close(); }catch(e){} }, 900);
+    }
+  } catch(e){console.warn(e)}
+
+  // NOTE: removed overlay emoji display per request — only play the sound now.
+  // also flash the brain briefly so there's a visible cue even if audio is blocked
+  try {
+    brainEl.classList.add('brain-hit');
+    brainEl.style.transform = `translate(-50%,-50%) scale(${Math.min((brainScale||1)+0.06, 3)}) rotate(${brainRotation}deg)`;
+    setTimeout(()=>{
+      brainEl.classList.remove('brain-hit');
+      brainEl.style.transform = `translate(-50%,-50%) scale(${brainScale}) rotate(${brainRotation}deg)`;
+    }, 420);
+  } catch(e){}
+}
+
+/* Perlin noise (1D, classic gradient approach) */
+const _perlin = (() => {
+  const perm = new Uint8Array(512);
+  const grad = [];
+  for (let i = 0; i < 256; i++) perm[i] = i;
+  for (let i = 255; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [perm[i],perm[j]]=[perm[j],perm[i]]; }
+  for (let i = 0; i < 256; i++) { perm[i+256] = perm[i]; grad[i] = (perm[i] & 1) ? 1 : -1; }
+  function fade(t){return t*t*t*(t*(t*6-15)+10);}
+  function lerp(a,b,t){return a+t*(b-a);}
+  return function noise(x) {
+    const xi = Math.floor(x) & 255;
+    const xf = x - Math.floor(x);
+    const u = fade(xf);
+    return lerp(grad[perm[xi]]*xf, grad[perm[xi+1]]*(xf-1), u);
+  };
+})();
+
+/* Penalty: cockroach running across the screen */
+function penaltyCockroach(emoji) {
+  const bug = '🪳';
+  const fromLeft = Math.random() > 0.5;
+
+  // wrapper that moves across the screen
+  const wrap = document.createElement('div');
+  wrap.className = 'bug-wrap';
+
+  // inner element bobs independently via CSS animation
+  const inner = document.createElement('div');
+  inner.className = 'bug-inner';
+  inner.style.zIndex = 100;
+  inner.style.pointerEvents = 'none';
+  inner.style.animation = `bug-bob ${800 + Math.random()*600}ms ease-in-out infinite`;
+
+  // nested rotator element — rotation lives here so the bob animation doesn't override it
+  const rotator = document.createElement('span');
+  rotator.style.display = 'inline-block';
+  rotator.textContent = bug;
+  rotator.style.fontSize = `${100 + Math.floor(Math.random()*50)}px`;
+  const baseRotate = fromLeft ? -90 : 90;
+  rotator.style.transform = `rotate(${baseRotate}deg)`;
+
+  inner.appendChild(rotator);
+  wrap.appendChild(inner);
+
+  const y = Math.random() * (game.clientHeight - 120) + 40;
+  const startX = fromLeft ? -160 : (game.clientWidth + 160);
+  wrap.style.left = `${startX}px`;
+  wrap.style.top = `${y}px`;
+  game.appendChild(wrap);
+  const cockroachObj = {el: wrap};
+  // mutable noise offsets so we can jolt them on collision
+  const noiseState = {offY: 0, offX: 0, speedBurst: 0};
+  cockroachObj.onHit = () => {
+    // shift noise offsets to make it veer in a new direction
+    noiseState.offY += (Math.random() - 0.5) * 300;
+    noiseState.offX += (Math.random() - 0.5) * 150;
+    // brief panic speed burst
+    noiseState.speedBurst = 2.5 + Math.random() * 1.5;
+    setTimeout(() => { noiseState.speedBurst = 0; }, 600 + Math.random() * 400);
+  };
+  cockroaches.push(cockroachObj);
+
+  // compute distance to travel and use a slow duration to mimic a real bug walking
+  const totalDist = game.clientWidth + 320;
+  const direction = fromLeft ? 1 : -1;
+  const duration = 35000 + Math.floor(Math.random()*10000);
+
+  // Perlin noise offsets (unique per cockroach)
+  const noiseOffY = Math.random() * 500;
+  const noiseOffX = Math.random() * 500 + 500;
+  const noiseScale = 0.8;
+  const wanderY = 800;
+  const wanderX = 400;
+
+  // --- Realistic behaviour state ---
+  // Speed multiplier driven by Perlin noise: smoothly varies between ~0 (pause) and ~2.5 (burst)
+  const speedNoiseOff = Math.random() * 800 + 1000;
+  // Pre-schedule a few random "freeze" windows where the bug stops dead
+  const freezes = [];
+  const freezeCount = 3 + Math.floor(Math.random() * 4); // 3-6 freezes
+  for (let i = 0; i < freezeCount; i++) {
+    const fStart = 0.08 + Math.random() * 0.75; // somewhere 8%-83% through
+    const fLen = 0.04 + Math.random() * 0.08;  // 4-12% of duration
+    freezes.push({start: fStart, end: fStart + fLen});
+  }
+  // Pre-schedule a few "panic bursts" where speed jumps
+  const bursts = [];
+  const burstCount = 1 + Math.floor(Math.random() * 2);
+  for (let i = 0; i < burstCount; i++) {
+    const bStart = 0.15 + Math.random() * 0.65;
+    const bLen = 0.03 + Math.random() * 0.05;
+    bursts.push({start: bStart, end: bStart + bLen, mult: 2.2 + Math.random() * 1.5});
+  }
+
+  let prevX = 0, prevY = 0;
+  let accumX = 0; // accumulated X travel (replaces linear progress)
+  let lastNow = performance.now();
+
+  const startTime = performance.now();
+
+  const animateWalk = (now) => {
+    const dt = Math.min((now - lastNow) / 1000, 0.1); // delta seconds, capped
+    lastNow = now;
+    const elapsedMs = now - startTime;
+    const linearProgress = Math.min(elapsedMs / duration, 1);
+    const t = elapsedMs * 0.001;
+
+    // Determine speed multiplier this frame
+    // Perlin-driven smooth speed variation (range ~0.3 – 1.8)
+    const rawNoise = _perlin((speedNoiseOff + t) * 0.5);
+    let speedMult = 0.3 + (rawNoise + 1) * 0.75; // maps [-1,1] → [0.3, 1.8]
+
+    // Check freezes (override to near-zero)
+    for (const f of freezes) {
+      if (linearProgress >= f.start && linearProgress <= f.end) { speedMult = 0.02; break; }
+    }
+    // Check panic bursts (override to high)
+    for (const b of bursts) {
+      if (linearProgress >= b.start && linearProgress <= b.end) { speedMult = b.mult; break; }
+    }
+
+    // Advance accumulated position based on variable speed
+    const baseSpeed = totalDist / (duration / 1000); // px per second at 1x
+    accumX += direction * baseSpeed * speedMult * dt;
+    // Apply hit-triggered speed burst on top
+    if (noiseState.speedBurst > 0) speedMult = noiseState.speedBurst;
+
+    // Perlin wander offsets (shifted by hit nudges)
+    const noiseX = _perlin((noiseOffX + noiseState.offX + t) * noiseScale) * wanderX;
+    const noiseY = _perlin((noiseOffY + noiseState.offY + t) * noiseScale) * wanderY;
+    const curX = accumX + noiseX;
+    const curY = noiseY;
+
+    wrap.style.transform = `translate(${curX}px, ${curY}px)`;
+
+    // rotate the nested rotator to face the actual movement direction
+    const dx = curX - prevX;
+    const dy = curY - prevY;
+    if (Math.abs(dx) > 0.01 || Math.abs(dy) > 0.01) {
+      const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+      rotator.style.transform = `rotate(${angle + 90}deg)`;
+    }
+    prevX = curX;
+    prevY = curY;
+
+    // remove once it has travelled far enough off screen
+    const absTravel = Math.abs(accumX);
+    if (absTravel < totalDist + 200 && cockroachObj._alive !== false) {
+      requestAnimationFrame(animateWalk);
+    } else {
+      cockroachObj._alive = false;
+      cockroaches = cockroaches.filter(c => c !== cockroachObj);
+      try { wrap.remove(); } catch(e){}
+    }
+  };
+  lastNow = startTime;
+  requestAnimationFrame(animateWalk);
+}
+
+/* Penalty: raining animation (drops fall for a short time) */
+function penaltyRain(emoji) {
+  const container = document.createElement('div');
+  container.className = 'rain-container';
+  container.style.position = 'absolute';
+  container.style.inset = '0';
+  container.style.pointerEvents = 'none';
+  container.style.zIndex = '70';
+  game.appendChild(container);
+
+  const count = 60;
+  for (let i=0;i<count;i++) {
+    const d = document.createElement('div');
+    d.className = 'rain-drop';
+    d.textContent = '💧';
+    d.style.position = 'absolute';
+    const left = Math.random() * game.clientWidth;
+    d.style.left = `${left}px`;
+    d.style.top = `${-20 - Math.random()*120}px`;
+    d.style.fontSize = `${12 + Math.random()*18}px`;
+    d.style.opacity = '0.85';
+    const dur = 1800 + Math.random()*900;
+    d.style.transition = `transform ${dur}ms linear, opacity ${dur}ms linear`;
+    container.appendChild(d);
+    // kick off fall slightly staggered
+    setTimeout(()=>{
+      d.style.transform = `translateY(${game.clientHeight + 60}px)`;
+      d.style.opacity = '0.12';
+    }, 60 + Math.random()*600);
+  }
+
+  // remove after the longest drop
+  setTimeout(()=>{ try{ container.remove(); }catch(e){} }, 5000 + Math.random()*800);
+}
+
+/* Create a new enemy element that moves across the screen */
+function spawnEnemy() {
+  // max enemies scales up over time: starts at 5, grows to CONFIG.maxEnemies over ~120s
+  const elapsedForCap = (performance.now() - gameStartTime) / 1000;
+  const currentMax = Math.min(CONFIG.maxEnemies, Math.floor(5 + (elapsedForCap / 600) * (CONFIG.maxEnemies - 5)));
+  if (enemies.length >= currentMax) return;
+  const emoji = enemyEmojis[Math.floor(Math.random()*enemyEmojis.length)];
+  const el = document.createElement('div');
+  el.className = 'enemy';
+  el.textContent = emoji;
+  game.appendChild(el);
+
+  // Random spawn side and velocity — speed increases over time
+  // Full pool ordered slow → fast; difficulty unlocks deeper into the array
+  const speedPool = [80, 120, 180, 250, 350, 500, 650, 850, 1100, 1400];
+  const elapsedSec = (performance.now() - gameStartTime) / 1000;
+  // Over ~120s the max reachable index grows from 2 to the full array
+  const maxIdx = Math.min(speedPool.length - 1, Math.floor(2 + (elapsedSec / 120) * (speedPool.length - 2)));
+  const minIdx = Math.max(0, maxIdx - 3); // pick from a 4-wide window
+  const fromLeft = Math.random() > 0.5;
+  const y = Math.random() * (game.clientHeight - 80) + 40;
+  const idx = minIdx + Math.floor(Math.random() * (maxIdx - minIdx + 1));
+  const speed = speedPool[idx];
+  const direction = fromLeft ? 1 : -1;
+  const x = fromLeft ? -60 : game.clientWidth + 60;
+
+  const enemy = {el, x, y, vx: direction * speed, vy: 0, w: 44, h:44, emoji};
+  el.style.transform = `translate(${x}px, ${y}px)`;
+  enemies.push(enemy);
+}
+
+/* Basic axis-aligned bounding box collision */
+function checkCollision(a, b) {
+  return !(a.x + a.w < b.x || a.x > b.x + b.w || a.y + a.h < b.y || a.y > b.y + b.h);
+}
+
+/* On collision: play sound, show image/video, increment penalty */
+function handleCollision() {
+  // legacy signature; if called without an enemy, behave generically
+  penaltyCount++;
+  brainSizeEl.textContent = brainScale.toFixed(2);
+  playPenaltySound();
+  // default visual fallback
+  if (CONFIG.penaltyImageUrl) showPenaltyInBackground({type:'image', url:CONFIG.penaltyImageUrl});
+}
+
+/* Animation loop */
+function frame(now) {
+  if (!paused) {
+    const dt = Math.min(60, now - lastFrame) / 1000; // seconds
+    lastFrame = now;
+
+    // Move enemies
+    for (let i = enemies.length - 1; i >= 0; i--) {
+      const e = enemies[i];
+      e.x += e.vx * dt;
+      e.y += e.vy * dt;
+      e.el.style.transform = `translate(${e.x}px, ${e.y}px)`;
+
+      // Remove if off-screen far
+      if (e.x < -200 || e.x > game.clientWidth + 200) {
+        e.el.remove();
+        enemies.splice(i,1);
+      }
+    }
+
+    // Collision check against brain
+    const brainRect = brainEl.getBoundingClientRect();
+    const brainBox = {x: brainRect.left, y: brainRect.top, w: brainRect.width, h: brainRect.height};
+    // Check foods first (eating)
+    for (let i = foods.length - 1; i >= 0; i--) {
+      const f = foods[i];
+      const fRect = f.el.getBoundingClientRect();
+      const fBox = {x: fRect.left, y: fRect.top, w: fRect.width, h: fRect.height};
+      if (checkCollision(brainBox, fBox)) {
+        eatFood(f);
+        // ensure it's removed from array (eatFood calls removeFood after animation)
+        foods = foods.filter(x => x !== f);
+        break; // only eat one per frame
+      }
+    }
+    for (const e of enemies) {
+      const rect = e.el.getBoundingClientRect();
+      const eBox = {x: rect.left, y: rect.top, w: rect.width, h: rect.height};
+      if (checkCollision(brainBox, eBox)) {
+        handleCollisionWithEnemy(e);
+        // remove collided enemy
+        e.el.remove();
+        enemies = enemies.filter(x => x !== e);
+        break; // avoid multiple in same frame
+      }
+    }
+    // Check cockroach collisions with brain
+    for (const c of cockroaches) {
+      if (c._alive === false || c._hitCooldown) continue;
+      const cRect = c.el.getBoundingClientRect();
+      const cBox = {x: cRect.left, y: cRect.top, w: cRect.width, h: cRect.height};
+      if (checkCollision(brainBox, cBox)) {
+        penaltyCount++;
+        brainSizeEl.textContent = brainScale.toFixed(2);
+        penaltyScream('🪳');
+        // nudge direction: give a random vertical offset to simulate startled direction change
+        if (c.onHit) c.onHit();
+        // cooldown so the same cockroach doesn't re-trigger immediately
+        c._hitCooldown = true;
+        setTimeout(() => { c._hitCooldown = false; }, 800);
+        break;
+      }
+    }
+    // Cockroaches steal food on collision
+    for (const c of cockroaches) {
+      if (c._alive === false) continue;
+      const cRect = c.el.getBoundingClientRect();
+      const cBox = {x: cRect.left, y: cRect.top, w: cRect.width, h: cRect.height};
+      for (let i = foods.length - 1; i >= 0; i--) {
+        const f = foods[i];
+        const fRect = f.el.getBoundingClientRect();
+        const fBox = {x: fRect.left, y: fRect.top, w: fRect.width, h: fRect.height};
+        if (checkCollision(cBox, fBox)) {
+          // cockroach eats the food — shrink it away
+          f.el.style.transform = 'scale(0)';
+          f.el.style.opacity = '0';
+          setTimeout(() => removeFood(f), 200);
+          foods = foods.filter(x => x !== f);
+          break; // one food per cockroach per frame
+        }
+      }
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+/* Pointer (mouse/touch) handling to move brain */
+let brainRotation = 0; // accumulated spin angle
+let prevPointerX = null, prevPointerY = null;
+
+function bindPointer() {
+  function move(x,y) {
+    const rect = game.getBoundingClientRect();
+    const cx = Math.max(rect.left, Math.min(x, rect.right));
+    const cy = Math.max(rect.top, Math.min(y, rect.bottom));
+    brainEl.style.left = `${cx}px`;
+    brainEl.style.top = `${cy}px`;
+
+    // compute velocity for spin
+    if (prevPointerX !== null) {
+      const dx = cx - prevPointerX;
+      const dy = cy - prevPointerY;
+      const speed = Math.sqrt(dx * dx + dy * dy);
+      // spin proportional to speed; sign based on horizontal direction
+      const spinDir = dx >= 0 ? 1 : -1;
+      brainRotation += spinDir * speed * 1.2;
+      brainEl.style.transform = `translate(-50%,-50%) scale(${brainScale}) rotate(${brainRotation}deg)`;
+    }
+    prevPointerX = cx;
+    prevPointerY = cy;
+  }
+  window.addEventListener('mousemove', e => move(e.clientX, e.clientY), {passive:true});
+  window.addEventListener('touchmove', e => {
+    if (e.touches.length) {
+      const t = e.touches[0];
+      move(t.clientX, t.clientY);
+      e.preventDefault();
+    }
+  }, {passive:false});
+}
+
+/* ---- Loading screen ---- */
+const loadScreen = document.getElementById('loadScreen');
+const loadStatus = document.getElementById('loadStatus');
+const startBtn = document.getElementById('startBtn');
+
+/* Background picker */
+document.getElementById('bgPicker').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-bg]');
+  if (!btn) return;
+  const bg = btn.getAttribute('data-bg');
+  document.body.style.background = bg;
+  loadScreen.style.background = bg;
+  document.querySelectorAll('#bgPicker button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+});
+
+async function preloadAll() {
+  const tasks = [];
+  let done = 0;
+  const urls = [
+    {key: 'eat', url: CONFIG.eatSoundUrl},
+    {key: 'penalty', url: CONFIG.penaltySoundUrl}
+  ];
+  const total = urls.length + 1; // +1 for emoji list
+
+  function updateStatus() {
+    done++;
+    loadStatus.textContent = `Loading... ${done}/${total}`;
+  }
+
+  // preload audio buffers
+  for (const {key, url} of urls) {
+    tasks.push(preloadAudio(key, url).then(updateStatus));
+  }
+  // load emoji list
+  tasks.push(loadEmojiList().then(list => { enemyEmojis = list; updateStatus(); }));
+
+  await Promise.allSettled(tasks);
+  loadStatus.textContent = 'ready!';
+  startBtn.classList.add('ready');
+}
+
+function startGame() {
+  // unlock AudioContext on this user gesture
+  const ctx = getAudioCtx();
+  if (ctx.state === 'suspended') ctx.resume();
+
+  // hide loading screen, show game
+  loadScreen.classList.add('hidden');
+  game.style.display = '';
+  document.getElementById('hud').style.display = '';
+  setTimeout(() => loadScreen.remove(), 500);
+
+  gameStartTime = performance.now();
+  bindPointer();
+  spawnTimer = setInterval(spawnEnemy, CONFIG.spawnIntervalMs);
+  foodSpawnTimer = setInterval(spawnFood, CONFIG.foodSpawnIntervalMs);
+  for (let i=0;i<3;i++) setTimeout(spawnEnemy, i*300);
+  for (let i=0;i<2;i++) setTimeout(spawnFood, i*350);
+  requestAnimationFrame(frame);
+}
+
+startBtn.addEventListener('click', startGame);
+
+/* Press Space to toggle pause */
+window.addEventListener('keydown', (e) => {
+  if (e.code === 'Space') { e.preventDefault(); paused = !paused; }
+});
+
+/* click overlay to close */
+overlay.addEventListener('click', (e) => { if (e.target === overlay) hideOverlay(); });
+
+/* begin preloading immediately */
+preloadAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+@font-face {
+  font-family: 'GratisLoveCustom'; 
+  src: url('font/GRATIS LOVE-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.courier-prime-regular {
+  font-family: "Courier Prime", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.courier-prime-bold {
+  font-family: "Courier Prime", monospace;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.courier-prime-regular-italic {
+  font-family: "Courier Prime", monospace;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.courier-prime-bold-italic {
+  font-family: "Courier Prime", monospace;
+  font-weight: 700;
+  font-style: italic;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 14px; 
+  font-family: 'Courier Prime', Courier, monospace;
+  font-weight: bold;
+ }
+
+body {
+  margin: 0;
+  font-family: "Courier Prime", monospace;
+  background: white;
+  font-size: 14px;
+}
+
+.participants-page {
+  background-color: rgb(132, 112, 233);
+}
+
+.recipes-page {
+  background-color: rgb(195, 237, 244);
+}
+
+.workshop-page {
+  background-color: rgb(216, 236, 177);
+}
+
+.space-1 {
+  height: 5em;
+}
+.space-2 {
+  height: 1em;
+}
+
+
+/* top right */
+.top-links {
+  position: fixed;
+  top: 30px;
+  left: 60px;
+  right: 60px;
+  z-index: 1000;
+  display:flex;
+  align-items:center;
+}
+
+.home-link {
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: auto;
+}
+
+.top-links a {
+  font-style: normal;
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+  letter-spacing: normal;
+  line-height: 14px;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 1001; /* above .top-links container */
+}
+
+.top-links a + a {
+  margin-left: 16px;
+}
+
+/* main layout */
+.container {
+  width: 100vw;
+  height: 100vh;
+  padding: 60px;
+  position: relative;
+}
+
+/* left text */
+.project-text {
+  width: 600px;
+  line-height: 1.5;
+}
+
+/* Force project-text links to be clickable */
+.project-text a {
+  cursor: pointer;        /* pointer cursor for links */
+  pointer-events: auto;   /* ensure clicks register */
+  color: black;           /* keep text black */
+  text-decoration: none;  /* remove underline if you like */
+  position: relative;     /* prevent z-index conflicts */
+  z-index: 20;            /* above overlays / scaled elements */
+}
+
+p.initiators a {
+  color: black;
+  text-decoration: none;
+}
+
+/* right object */
+.object-area {
+  position: absolute;
+  right: 50px;
+  bottom: 300px;
+  z-index: 1;
+  scale: 0.5;
+}
+
+.notebook-cover {
+  width: 500px;
+  cursor: pointer;
+}
+
+/* index-links container */
+.index-links {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 120px;
+  font-size: 14px;
+  padding: 0 60px;
+  letter-spacing: 1em;
+  pointer-events: none; /* Make container non-interactive */
+}
+
+.index-links a {
+  text-decoration: none;
+  color: inherit;
+  pointer-events: auto; /* Make links clickable */
+}
+/* 基礎樣式 */
+.index-links p {
+  font-size: 14px;
+  width: 200px;
+  text-align: center;
+  cursor: url('img/cursor-default.png'), auto; /* 預設不可點的游標 */
+  pointer-events: auto;
+}
+
+/* 滑鼠移入 (Hover) 時的狀態 */
+.index-links p:hover {
+  font-family: 'GratisLoveCustom', sans-serif; /* 變換成你的字體 */
+  transform: scale(4);
+  cursor: url('img/cursor-pointer.png'), pointer; /* 變換成可點擊的游標 */
+  letter-spacing: 0.05em;
+  position: relative;
+  z-index: 10;
+}
+
+
+
+
+/* notebook overlay */
+.notebook-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease; /* 淡入動畫 */
+
+}
+
+.notebook-view.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.page-counter {
+  margin-top: 15px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  cursor: pointer;
+  font-family: 'Courier Prime', monospace;
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  /* 強制使用預設游標 */
+  cursor: default !important;
+}
+/* 底圖 */
+.base-layer {
+  display: block;
+  max-width: 80vw;
+  max-height: 80vh;
+  transition: opacity 0.3s ease;
+}
+
+/* 疊加圖 */
+.overlay-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; 
+  height: 100%;
+  object-fit: contain;
+  opacity: 0; /* 預設隱藏 */
+  pointer-events: none; /* 讓點擊可以穿透，不影響翻頁 */
+  transition: opacity 0.3s ease;
+}
+/* 為了讓視覺更清楚，可以分別控制左/右層的內容 */
+.overlay-layer.left { z-index: 10; }
+.overlay-layer.right { z-index: 10; }
+
+/* 游標 */
+/* 1. 全域預設游標 (不能點的時候) */
+body, html {
+  cursor: url('img/cursor-default.png'), auto;
+}
+
+/* 2. 可點擊元素的游標 (可以點的時候) */
+/* 包含連結、按鈕、以及我們自定義的圖片切換區域 */
+a, 
+button, 
+.close-btn, 
+#openNotebook, 
+#imageWrapper,
+.image-grid .grid-item img,
+[role="button"] {
+  cursor: url('img/cursor-pointer.png'), pointer !important;
+}
+
+
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
+  grid-auto-flow: dense;
+  gap: 20px; /* space between images */
+  margin-top: 250px; /* GALLERY開始位置*/
+  padding: 0 p;
+}
+
+/* 每個圖片容器 */
+.image-grid .grid-item {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-grid .grid-item img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.image-grid .grid-item:nth-child(3n) {
+  grid-column: span 2;
+}
+
+.image-grid .grid-item:nth-child(4n) {
+  grid-row: span 2;
+}
+
+.image-grid .grid-item:nth-child(7n) {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* hover effect on images */
+.image-grid .grid-item img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+footer {
+  font-size: 14px;
+  font-family: 'Courier Prime', monospace;
+  font-weight: normal;
+  position: fixed;
+  bottom: 30px;
+  left: 60px;
+  right: 60px;
+  line-height: 6px;
+  }
+
+  .container {
+    position: relative;
+    
+}
+
+.align-right {
+    margin-left: 16px;
+}
+
+.opencall-image {
+  position: absolute;
+  right: 60px;
+  top: 100px;
+  scale: 0.3;
+  transform-origin: top right;
+}
+
+.emily-randlkofer-page .image-grid .grid-item img {
+  object-fit: contain;
+}
+
+.emily-randlkofer-page .image-grid {
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-flow: row;
+  row-gap: 20px;
+  margin-top: 10px;
+}
+
+.emily-randlkofer-page .image-grid .grid-item,
+.emily-randlkofer-page .image-grid .grid-item:nth-child(3n),
+.emily-randlkofer-page .image-grid .grid-item:nth-child(4n),
+.emily-randlkofer-page .image-grid .grid-item:nth-child(7n) {
+  grid-column: auto;
+  grid-row: auto;
+}
+
+.emily-randlkofer-page .content-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.workshop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 150px;
+}
+
+.workshop-grid img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Lightbox styles */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.8);
+}
+
+.lightbox-content {
+  margin: auto;
+  display: block;
+  width: auto;
+  max-width: 90%;
+  max-height: 80vh;
+}
+
+.close-lightbox {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+
+.item-image img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+  cursor: url('img/cursor-pointer.png'), pointer;
+}
+
+.close-lightbox:hover,
+.close-lightbox:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.item-label {
+  display: none;
+}
+
+.emily-randlkofer-page .item-image img {
+  max-width: 80%;
+  height: 200px;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
