@@ -13,28 +13,26 @@
     margin-top: 100px;
     font-family: "Courier Prime", monospace;
   }
-  .item-container {
+  .two-column-container {
     display: flex;
-    align-items: flex-start;
-    margin-bottom: 50px;
   }
-  .item-label {
-    flex: 1;
+  .text-column {
+    width: 600px;
+    flex-shrink: 0;
     padding-right: 20px;
   }
-  .item-image {
+  .image-column {
     flex: 1;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
   }
-  .item-image img {
+  .image-column img {
     max-width: 100%;
     height: auto;
-  }
-  .item-spacer {
-    flex: 1;
+    margin-bottom: 20px;
   }
 </style>
+
 </head>
 
 <script src="../script.js"></script>
@@ -53,20 +51,18 @@
      <h1>Linus Finn</h1>
 
     <div class="content-wrapper">
-      <div class="item-container">
-        <div class="item-label"><p>01</p></div>
-        <div class="item-image"><img src="../img/works/08_Linus Finn/01.jpg" alt="Linus Finn work 1" class="work-image"></div>
-        <div class="item-spacer"></div>
-      </div>
-      <div class="item-container">
-        <div class="item-label"><p>03</p></div>
-        <div class="item-image"><img src="../img/works/08_Linus Finn/03.jpg" alt="Linus Finn work 2" class="work-image"></div>
-        <div class="item-spacer"></div>
-      </div>
-      <div class="item-container">
-        <div class="item-label"><p>02</p></div>
-        <div class="item-image"><img src="../img/works/08_Linus Finn/02.jpg" alt="Linus Finn work 3" class="work-image"></div>
-        <div class="item-spacer"></div>
+      <div class="two-column-container">
+        <div class="text-column">
+          <p><span>The Broken Egg Curry and the Croquettes.</span></p>
+          <p><span>What they have in common is, indeed, the Broken Egg.</span></p>
+          <p><span>Eggs make croquettes — croquettes that came from a potato waiting in the fridge to be reshaped and reheated. Alondra becomes the fryer, Deniz and I become the croquette-shapers. Nana, as the critical dégustatrice, gives the final verdict on the dish. Well, we all give the final verdict. There is potential, we agree. A table, a plate, a curry, and the fallen eggs—once liquid, now solidified and tasty. The croquettes contrast with the liquid texture of the curry (which simply turned out that way). There should have been more tomatoes, we all think.</span></p>
+          <p><span>An evening of sharing—about shared flats, and ways in which the Broken Egg Curry and the Croquettes mirror shared living.</span></p>
+        </div>
+        <div class="image-column">
+          <img src="../img/works/08_Linus Finn/01.jpg" alt="Linus Finn work 1" class="work-image">
+          <img src="../img/works/08_Linus Finn/03.jpg" alt="Linus Finn work 2" class="work-image">
+          <img src="../img/works/08_Linus Finn/02.jpg" alt="Linus Finn work 3" class="work-image">
+        </div>
       </div>
     </div>
 </main>

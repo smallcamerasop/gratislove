@@ -1,5 +1,17 @@
 const galleryImages = [
   {
+    "path": "img/works/20_Allie Pori/01.jpg",
+    "link": "PARTICIPANTS/Allie Pori.html"
+  },
+  {
+    "path": "img/works/20_Allie Pori/02.jpg",
+    "link": "PARTICIPANTS/Allie Pori.html"
+  },
+  {
+    "path": "img/works/20_Allie Pori/03.jpg",
+    "link": "PARTICIPANTS/Allie Pori.html"
+  },
+  {
     "path": "img/works/24_Chesa/Blessing.jpeg",
     "link": "PARTICIPANTS/Chesa.html"
   },
@@ -236,9 +248,10 @@ const galleryImages = [
     "link": "PARTICIPANTS/Tim Kummer.html"
   },
   {
-    "path": "img/works/ 15_Valeria Leiva/01.jpg",
-    "link": "Valeria.html"
+    "path": "img/works/15_Valeria Leiva/01.jpg",
+    "link": "PARTICIPANTS/Valeria.html"
   },
+
   {
     "path": "img/works/09_Linus Weber/02fishinmayosauce.jpg",
     "link": "PARTICIPANTS/Linus Weber.html"
@@ -250,14 +263,6 @@ const galleryImages = [
   {
     "path": "img/works/09_Linus Weber/03stuffedeggs.jpg",
     "link": "PARTICIPANTS/Linus Weber.html"
-  },
-  {
-    "path": "img/works/20_Sofía Rojas/02.jpg",
-    "link": "PARTICIPANTS/Sofía Rojas.html"
-  },
-  {
-    "path": "img/works/20_Sofía Rojas/01.jpg",
-    "link": "PARTICIPANTS/Sofía Rojas.html"
   },
   {
     "path": "img/works/05_Estéfana Román Matesanz/smells like mint.jpg",
