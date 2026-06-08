@@ -40,33 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 更新頁碼
     pageCounter.textContent = `${currentIndex + 1} / ${pageData.length}`;
     
-    // 預設隱藏疊加層
-    leftOverlay.style.opacity = "0";
-    rightOverlay.style.opacity = "0";
   }
 
-  // 3. 處理滑鼠移動 (顯示疊加圖)
-  imageWrapper.addEventListener("mousemove", (e) => {
-    const rect = imageWrapper.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const isLeftSide = x < rect.width / 2;
-
-    if (isLeftSide) {
-      leftOverlay.style.opacity = "1";
-      rightOverlay.style.opacity = "0";
-      imageWrapper.style.cursor = "w-resize"; // 顯示左箭頭
-    } else {
-      leftOverlay.style.opacity = "0";
-      rightOverlay.style.opacity = "1";
-      imageWrapper.style.cursor = "e-resize"; // 顯示右箭頭
-    }
-  });
-
-  // 滑鼠離開圖片區域時隱藏疊加圖
-  imageWrapper.addEventListener("mouseleave", () => {
-    leftOverlay.style.opacity = "0";
-    rightOverlay.style.opacity = "0";
-  });
+  
 
   // 4. 處理點擊翻頁
   imageWrapper.addEventListener("click", (e) => {

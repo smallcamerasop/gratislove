@@ -77,10 +77,10 @@ body {
   align-items:center;
 }
 
-.home-link {
-  font-weight: bold;
-  font-size: 14px;
-  margin-right: auto;
+.top-links a.home-link {
+    font-family: 'GratisLoveCustom', monospace;
+    font-size: 35px;
+    margin-right: auto;
 }
 
 .top-links a {
@@ -103,7 +103,7 @@ body {
 .container {
   width: 100vw;
   height: 100vh;
-  padding: 60px;
+  padding: 70px;
   position: relative;
 }
 
@@ -142,48 +142,71 @@ p.initiators a {
   cursor: pointer;
 }
 
-/* index-links container */
+/* =========================================
+   共用設定 (保留你的 flex 排版、字距與不可點擊設定)
+   ========================================= */
 .index-links {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 120px;
+  width: 100%;
   font-size: 14px;
   padding: 0 60px;
   letter-spacing: 1em;
-  pointer-events: none; /* Make container non-interactive */
+  pointer-events: none; /* 容器本身不干擾點擊 */
+  box-sizing: border-box; /* 重要：防止 padding 讓寬度超過 100% 產生橫向卷軸 */
 }
 
+/* =========================================
+   排版樣式一：你原本的全畫面絕對定位
+   ========================================= */
+.index-links.style-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  margin-top: 120px;
+}
+
+/* =========================================
+   排版樣式二：方法一 (永遠固定在視窗底部)
+   ========================================= */
+.index-links.style-fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: auto;         /* 覆寫掉原本可能有的高度，讓它自動適應 */
+  padding-bottom: 30px; /* 距離螢幕底部的留白，可依喜好調整 */
+  margin-top: 0;        /* 不需要 top margin */
+  z-index: 1000;        /* 確保它浮在最上層，不會被圖片蓋住 */
+}
+
+/* =========================================
+   連結與 Hover 特效 (完全保留你的設定)
+   ========================================= */
 .index-links a {
   text-decoration: none;
   color: inherit;
-  pointer-events: auto; /* Make links clickable */
+  pointer-events: auto; /* 讓連結可以點擊 */
 }
-/* 基礎樣式 */
+
 .index-links p {
   font-size: 14px;
   width: 200px;
   text-align: center;
-  cursor: url('img/cursor-default.png'), auto; /* 預設不可點的游標 */
-  pointer-events: auto;
+  cursor: url('img/cursor-default.png'), auto;
+  pointer-events: auto; /* 讓 p 可以被 hover */
 }
 
-/* 滑鼠移入 (Hover) 時的狀態 */
 .index-links p:hover {
-  font-family: 'GratisLoveCustom', sans-serif; /* 變換成你的字體 */
+  font-family: 'GratisLoveCustom', sans-serif;
   transform: scale(4);
-  cursor: url('img/cursor-pointer.png'), pointer; /* 變換成可點擊的游標 */
+  cursor: url('img/cursor-pointer.png'), pointer;
   letter-spacing: 0.05em;
   position: relative;
   z-index: 10;
 }
-
 
 
 
