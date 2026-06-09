@@ -273,15 +273,15 @@ const galleryImages = [
     "link": "workshop.html"
   },
   {
-    "path": "img/works/17_workshop/post-03.jpg",
+    "path": "img/works/17_workshop/post-03.png",
     "link": "workshop.html"
   },
   {
-    "path": "img/works/17_workshop/post-02.jpg",
+    "path": "img/works/17_workshop/post-02.png",
     "link": "workshop.html"
   },
   {
-    "path": "img/works/17_workshop/post-04.jpg",
+    "path": "img/works/17_workshop/post-04.png",
     "link": "workshop.html"
   }
 ];
