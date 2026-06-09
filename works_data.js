@@ -248,7 +248,7 @@ const galleryImages = [
     "link": "PARTICIPANTS/Tim Kummer.html"
   },
   {
-    "path": "img/works/15_Valeria Leiva/01.jpg",
+    "path": "img/works/ 15_Valeria Leiva/01.jpg",
     "link": "PARTICIPANTS/Valeria.html"
   },
 
