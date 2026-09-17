@@ -119,3 +119,31 @@ window.addEventListener('DOMContentLoaded', () => {
   // Remove current items and append them in shuffled order
   items.forEach(item => grid.appendChild(item));
 });
+
+// Wrap each letter of the index-links nav labels in its own span,
+// so the hover zoom scales every letter from its own centre instead of the whole word.
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.index-links p a').forEach(link => {
+    const letters = link.textContent.split('');
+    link.textContent = '';
+    letters.forEach(ch => {
+      const span = document.createElement('span');
+      span.className = 'letter';
+      span.textContent = ch;
+      link.appendChild(span);
+    });
+  });
+});
+
+// Only show the "scroll down to see the gallery" hint while at the very top of the page
+document.addEventListener('DOMContentLoaded', () => {
+  const scrollHint = document.getElementById('scrollHint');
+  if (!scrollHint) return;
+
+  const updateScrollHint = () => {
+    scrollHint.classList.toggle('hidden', window.scrollY > 0);
+  };
+
+  updateScrollHint();
+  window.addEventListener('scroll', updateScrollHint);
+});

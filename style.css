@@ -43,7 +43,7 @@ body {
   margin: 0;
   font-family: "Courier Prime", monospace;
   background: white;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .participants-page {
@@ -75,6 +75,7 @@ body {
   z-index: 1000;
   display:flex;
   align-items:center;
+  pointer-events: none; /* 讓空白處不擋住下方的直式導覽 */
 }
 
 .top-links a.home-link {
@@ -87,7 +88,7 @@ body {
   font-style: normal;
   text-decoration: none;
   color: black;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: normal;
   line-height: 14px;
   cursor: pointer;
@@ -102,7 +103,7 @@ body {
 /* main layout */
 .container {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   padding: 70px;
   position: relative;
 }
@@ -111,6 +112,13 @@ body {
 .project-text {
   width: 600px;
   line-height: 1.5;
+  margin-top: 40px;
+}
+
+/* 首頁 hero 區塊固定佔滿一個視窗高度，gallery 需要捲動才看得到 */
+#index-page .project-text {
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 /* Force project-text links to be clickable */
@@ -131,59 +139,49 @@ p.initiators a {
 /* right object */
 .object-area {
   position: absolute;
-  right: 50px;
-  bottom: 300px;
+  top: 210px;
+  right: 70px;
   z-index: 1;
-  scale: 0.5;
 }
 
 .notebook-cover {
-  width: 500px;
+  width: 260px;
   cursor: pointer;
 }
 
 /* =========================================
-   共用設定 (保留你的 flex 排版、字距與不可點擊設定)
+   共用設定：直式字串，單一直欄置中
    ========================================= */
 .index-links {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   font-size: 14px;
-  padding: 0 60px;
-  letter-spacing: 1em;
+  letter-spacing: 1.3em;
   pointer-events: none; /* 容器本身不干擾點擊 */
-  box-sizing: border-box; /* 重要：防止 padding 讓寬度超過 100% 產生橫向卷軸 */
+  box-sizing: border-box;
 }
 
 /* =========================================
-   排版樣式一：你原本的全畫面絕對定位
+   排版樣式一與二：上緣對齊 top-links，下緣對齊視窗底部
    ========================================= */
-.index-links.style-absolute {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  margin-top: 120px;
-}
-
-/* =========================================
-   排版樣式二：方法一 (永遠固定在視窗底部)
-   ========================================= */
+.index-links.style-absolute,
 .index-links.style-fixed-bottom {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  height: auto;         /* 覆寫掉原本可能有的高度，讓它自動適應 */
-  padding-bottom: 30px; /* 距離螢幕底部的留白，可依喜好調整 */
-  margin-top: 0;        /* 不需要 top margin */
-  z-index: 1000;        /* 確保它浮在最上層，不會被圖片蓋住 */
+  top: 30px;    /* 對齊 .top-links 的 top 值 */
+  bottom: 30px; /* 對齊視窗底部 */
+  left: 50%;
+  transform: translateX(-50%);
+  height: auto;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  z-index: 500;
 }
 
 /* =========================================
-   連結與 Hover 特效 (完全保留你的設定)
+   連結與 Hover 特效
    ========================================= */
 .index-links a {
   text-decoration: none;
@@ -193,19 +191,27 @@ p.initiators a {
 
 .index-links p {
   font-size: 14px;
-  width: 200px;
-  text-align: center;
+  writing-mode: vertical-rl; /* 直式排列 */
+  text-orientation: upright; /* 每個字母維持正立，不旋轉 */
+  width: auto;
+  flex-shrink: 0; /* 避免空間不夠時被壓縮成雙欄 */
   cursor: url('img/cursor-default.png'), auto;
   pointer-events: auto; /* 讓 p 可以被 hover */
 }
 
+.index-links p a .letter {
+  display: inline-block; /* 讓每個字母能各自套用 transform */
+}
+
 .index-links p:hover {
   font-family: 'GratisLoveCustom', sans-serif;
-  transform: scale(4);
   cursor: url('img/cursor-pointer.png'), pointer;
-  letter-spacing: 0.05em;
   position: relative;
   z-index: 10;
+}
+
+.index-links p:hover .letter {
+  transform: scale(2.6); /* 每個字母各自從自己的中心放大 */
 }
 
 
@@ -302,7 +308,7 @@ button,
   grid-auto-rows: 200px;
   grid-auto-flow: dense;
   gap: 20px; /* space between images */
-  margin-top: 250px; /* GALLERY開始位置*/
+  margin-top: 40px; /* 與上方 hero 區塊的間距 */
   padding: 0 p;
 }
 
@@ -351,6 +357,16 @@ footer {
   line-height: 6px;
   }
 
+#scrollHint {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+#scrollHint.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
   .container {
     position: relative;
     
@@ -366,31 +382,6 @@ footer {
   top: 100px;
   scale: 0.3;
   transform-origin: top right;
-}
-
-.emily-randlkofer-page .image-grid .grid-item img {
-  object-fit: contain;
-}
-
-.emily-randlkofer-page .image-grid {
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-flow: row;
-  row-gap: 20px;
-  margin-top: 10px;
-}
-
-.emily-randlkofer-page .image-grid .grid-item,
-.emily-randlkofer-page .image-grid .grid-item:nth-child(3n),
-.emily-randlkofer-page .image-grid .grid-item:nth-child(4n),
-.emily-randlkofer-page .image-grid .grid-item:nth-child(7n) {
-  grid-column: auto;
-  grid-row: auto;
-}
-
-.emily-randlkofer-page .content-wrapper {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
 }
 
 .workshop-grid {
@@ -454,12 +445,5 @@ footer {
 
 .item-label {
   display: none;
-}
-
-.emily-randlkofer-page .item-image img {
-  max-width: 80%;
-  height: 200px;
-  margin: 0 auto;
-  object-fit: cover;
 }
 
