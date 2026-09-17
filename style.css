@@ -136,16 +136,21 @@ p.initiators a {
   text-decoration: none;
 }
 
-/* right object */
+/* right object：置中在文字右側的整塊區域（與 hero 同高） */
 .object-area {
   position: absolute;
-  top: 210px;
-  right: 70px;
+  top: 0;
+  left: 950px; /* 比 .project-text 右緣再往右一點，讓置中位置整體偏右 */
+  right: 70px; /* 對齊 .container 的右側 padding */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 1;
 }
 
 .notebook-cover {
-  width: 260px;
+  width: 340px;
   cursor: pointer;
 }
 
@@ -384,15 +389,27 @@ footer {
   transform-origin: top right;
 }
 
+/* workshop.html：文字固定在左側，圖片在右側隨頁面捲動 */
+.workshop-page .project-text {
+  position: fixed;
+  top: 110px; /* 對齊原本 container padding(70px) + margin-top(40px) 的位置 */
+  left: 70px;
+  z-index: 2;
+}
+
+/* 右半邊從 index-links (視窗正中央) 開始，圖片在這個範圍內置中 */
 .workshop-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
-  margin-top: 150px;
+  margin-top: 40px; /* 對齊固定文字的頂部 */
+  margin-left: calc(50vw - 20px); /* 讓右半邊左緣避開置中的 index-links（保留其寬度的緩衝空間） */
 }
 
 .workshop-grid img {
   width: 100%;
+  max-width: 480px; /* 縮小圖片 */
   height: auto;
   object-fit: cover;
 }
