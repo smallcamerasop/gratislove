@@ -381,12 +381,16 @@ footer {
     margin-left: 16px;
 }
 
+/* 置中在 index-links 右側的區塊，做法與 .workshop-grid 一致 */
 .opencall-image {
   position: absolute;
-  right: 60px;
-  top: 100px;
-  scale: 0.3;
-  transform-origin: top right;
+  left: calc(50vw - 20px); /* 避開置中的 index-links */
+  right: 70px; /* 對齊 .container 的右側 padding */
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 auto;
+  width: 500px;
+  height: auto;
 }
 
 /* workshop.html：文字固定在左側，圖片在右側隨頁面捲動 */
