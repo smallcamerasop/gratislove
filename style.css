@@ -347,7 +347,6 @@ button,
 
 /* hover effect on images */
 .image-grid .grid-item img:hover {
-  transform: scale(1.05);
   filter: brightness(1.1);
 }
 
@@ -452,7 +451,6 @@ footer {
 
 
 .item-image img:hover {
-  transform: scale(1.05);
   filter: brightness(1.1);
   cursor: url('img/cursor-pointer.png'), pointer;
 }
