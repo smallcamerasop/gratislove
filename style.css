@@ -46,6 +46,11 @@ body {
   font-size: 16px;
 }
 
+/* <pre> 預設字體是瀏覽器內建的 monospace，統一改回跟全站一致的 Courier Prime */
+pre {
+  font-family: inherit;
+}
+
 .participants-page {
   background-color: rgb(132, 112, 233);
 }
@@ -129,6 +134,30 @@ body {
   text-decoration: none;  /* remove underline if you like */
   position: relative;     /* prevent z-index conflicts */
   z-index: 20;            /* above overlays / scaled elements */
+}
+
+/* hover 在 "notebook" 文字上時，游標旁顯示 00.jpg 預覽圖 */
+.notebook-word {
+  position: relative;
+  cursor: url('img/cursor-pointer.png'), pointer;
+}
+
+.notebook-word-preview {
+  display: none;
+  position: absolute;
+  top: -10px;
+  left: 100%;
+  margin-left: 10px;
+  width: 160px;
+  height: auto;
+  z-index: 30;
+  border: 1px solid #ccc;
+  background: white;
+  pointer-events: none;
+}
+
+.notebook-word:hover .notebook-word-preview {
+  display: block;
 }
 
 p.initiators a {
