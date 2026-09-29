@@ -35,7 +35,41 @@
   h1 { position: fixed; top: 110px; left: 70px; z-index: 2; font-size: 18px; margin: 0; }
   .two-column-container { display: block; }
   .text-column { position: fixed; top: 150px; left: 70px; z-index: 2; }
-  .image-column { flex: none; margin-left: calc(50vw - 20px); }
+
+  /* 圖片改成堆疊：固定在右側，捲動時第二、三張依序疊上來 */
+  .image-column {
+    display: block;
+    position: fixed;
+    top: 150px;
+    left: calc(50vw - 20px);
+    right: 70px;
+    height: calc(100vh - 190px);
+    margin-left: 0;
+  }
+  .image-stack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .image-column img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+    margin-bottom: 0;
+    opacity: 0;
+    mix-blend-mode: multiply; /* 疊圖時用 multiply 讓圖層融合，而不是單純蓋過去 */
+    transition: opacity 0.6s ease;
+  }
+  .image-column img.active {
+    opacity: 1;
+  }
+  .image-scroll-spacer {
+    height: 300vh; /* 每張圖片對應約一個視窗高度的捲動距離 */
+  }
 </style>
 
 </head>
@@ -74,11 +108,14 @@
           <p><span>An evening of sharing—about shared flats, and ways in which the Broken Egg Curry and the Croquettes mirror shared living.</span></p>
         </div>
         <div class="image-column">
-          <img src="../img/works/08_Linus Finn/01.jpg" alt="Linus Finn work 1" class="work-image">
-          <img src="../img/works/08_Linus Finn/03.jpg" alt="Linus Finn work 2" class="work-image">
-          <img src="../img/works/08_Linus Finn/02.jpg" alt="Linus Finn work 3" class="work-image">
+          <div class="image-stack">
+            <img src="../img/works/08_Linus Finn/01.jpg" alt="Linus Finn work 1" class="work-image active">
+            <img src="../img/works/08_Linus Finn/02.jpg" alt="Linus Finn work 2" class="work-image">
+            <img src="../img/works/08_Linus Finn/03.jpg" alt="Linus Finn work 3" class="work-image">
+          </div>
         </div>
       </div>
+      <div class="image-scroll-spacer"></div>
     </div>
 </main>
     <!-- navigation -->
@@ -97,6 +134,25 @@
 </div>
 
 <script src="../lightbox.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const imgs = document.querySelectorAll('.image-stack img');
+    const spacer = document.querySelector('.image-scroll-spacer');
+    if (!imgs.length || !spacer) return;
+
+    const updateStack = () => {
+      const rect = spacer.getBoundingClientRect();
+      const totalHeight = spacer.offsetHeight;
+      const scrolled = -rect.top;
+      const progress = Math.min(Math.max(scrolled / totalHeight, 0), 0.999);
+      const index = Math.floor(progress * imgs.length);
+      imgs.forEach((img, i) => img.classList.toggle('active', i <= index));
+    };
+
+    updateStack();
+    window.addEventListener('scroll', updateStack);
+  });
+</script>
 </body>
 
 </html>
