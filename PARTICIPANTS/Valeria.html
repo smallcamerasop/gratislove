@@ -38,7 +38,48 @@
   h1 { position: fixed; top: 110px; left: 70px; z-index: 2; font-size: 18px; margin: 0; }
   .item-container { display: block; }
   .item-spacer { display: none; }
-  .item-image { display: flex; justify-content: center; margin-left: calc(50vw - 20px); }
+  .item-image { display: contents; }
+
+  /* 圖片可拖移、可用把手旋轉，放置於頁面任何位置 */
+  .drag-rotate-box {
+    position: fixed;
+    z-index: 5;
+    cursor: grab;
+    transform-origin: center center;
+  }
+  .drag-rotate-box.dragging {
+    cursor: grabbing;
+  }
+  .drag-rotate-box img {
+    display: block;
+    width: 700px;
+    max-width: none;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .rotate-handle {
+    position: absolute;
+    top: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: black;
+    cursor: url('../img/cursor-pointer.png'), alias;
+  }
+  .rotate-handle::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    width: 1px;
+    height: 16px;
+    background: black;
+    transform: translateX(-50%);
+  }
 </style>
 </head>
 
@@ -70,7 +111,12 @@
     <div class="content-wrapper">
       <div class="item-container">
         <div class="item-label"><p>01</p></div>
-        <div class="item-image"><img src="../img/works/ 15_Valeria Leiva/01.jpg" alt="Valeria work 1" class="work-image"></div>
+        <div class="item-image">
+          <div class="drag-rotate-box" id="dragBox">
+            <img src="../img/works/ 15_Valeria Leiva/01.jpg" alt="Valeria work 1" class="work-image">
+            <div class="rotate-handle" id="rotateHandle"></div>
+          </div>
+        </div>
         <div class="item-spacer"></div>
       </div>
     </div>
@@ -91,6 +137,65 @@
 </div>
 
 <script src="../lightbox.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const box = document.getElementById('dragBox');
+    const handle = document.getElementById('rotateHandle');
+    if (!box || !handle) return;
+
+    let angle = 40;
+
+    const setInitialPosition = () => {
+      const rect = box.getBoundingClientRect();
+      const centerX = window.innerWidth * 0.72;
+      const centerY = window.innerHeight / 2;
+      box.style.left = (centerX - rect.width / 2) + 'px';
+      box.style.top = (centerY - rect.height / 2) + 'px';
+    };
+
+    box.style.transform = `rotate(${angle}deg)`;
+    setInitialPosition();
+
+    let dragging = false;
+    let rotating = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    box.addEventListener('mousedown', (e) => {
+      dragging = true;
+      box.classList.add('dragging');
+      const rect = box.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      e.preventDefault();
+    });
+
+    handle.addEventListener('mousedown', (e) => {
+      rotating = true;
+      e.stopPropagation();
+      e.preventDefault();
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (dragging) {
+        box.style.left = (e.clientX - offsetX) + 'px';
+        box.style.top = (e.clientY - offsetY) + 'px';
+      } else if (rotating) {
+        const rect = box.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        angle = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI + 90;
+        box.style.transform = `rotate(${angle}deg)`;
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      dragging = false;
+      rotating = false;
+      box.classList.remove('dragging');
+    });
+  });
+</script>
 </body>
 
 </html>

@@ -38,7 +38,26 @@
   h1 { position: fixed; top: 110px; left: 70px; z-index: 2; font-size: 18px; margin: 0; }
   .item-container { display: block; }
   .item-spacer { display: none; }
-  .item-image { display: flex; justify-content: center; margin-left: calc(50vw - 20px); }
+
+  /* 圖片在右側區塊水平、垂直都置中，整頁不需要上下捲動 */
+  body { overflow: hidden; }
+  .item-image {
+    position: fixed;
+    top: 0;
+    left: calc(50vw + 50px);
+    right: 70px;
+    height: 100vh;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .item-image img {
+    width: auto;
+    height: auto;
+    max-width: min(550px, calc(50vw - 160px));
+    max-height: 85vh;
+  }
 </style>
 </head>
 

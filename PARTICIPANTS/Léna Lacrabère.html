@@ -38,7 +38,39 @@
   h1 { position: fixed; top: 110px; left: 70px; z-index: 2; font-size: 18px; margin: 0; }
   .item-container { display: block; }
   .item-spacer { display: none; }
-  .item-image { display: flex; justify-content: center; margin-left: calc(50vw - 20px); }
+
+  /* 第一張圖固定在左側 */
+  .item-container:nth-of-type(1) .item-image {
+    position: fixed;
+    top: 0;
+    left: 70px;
+    right: calc(50vw + 50px);
+    height: 100vh;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .item-container:nth-of-type(1) .item-image img {
+    width: auto;
+    height: auto;
+    max-width: min(550px, calc(50vw - 160px));
+    max-height: 85vh;
+  }
+
+  /* 第二、三張圖放右側，可上下捲動 */
+  .item-container:nth-of-type(2) .item-image,
+  .item-container:nth-of-type(3) .item-image {
+    display: flex;
+    justify-content: center;
+    margin-left: calc(50vw - 20px);
+  }
+  .item-container:nth-of-type(2) .item-image img,
+  .item-container:nth-of-type(3) .item-image img {
+    width: 100%;
+    height: auto;
+    max-width: min(550px, calc(50vw - 90px));
+  }
 </style>
 </head>
 

@@ -39,6 +39,15 @@
   .item-container { display: block; }
   .item-spacer { display: none; }
   .item-image { display: flex; justify-content: center; margin-left: calc(50vw - 20px); }
+
+  /* 限制圖片高度，讓整頁內容不超過一個視窗，不需要上下捲動 */
+  body { overflow: hidden; }
+  .item-image img {
+    max-width: 100%;
+    height: auto;
+    max-height: calc(100vh - 200px);
+    width: auto;
+  }
 </style>
 </head>
 

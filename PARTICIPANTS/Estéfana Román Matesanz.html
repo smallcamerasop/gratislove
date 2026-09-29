@@ -38,7 +38,35 @@
   h1 { position: fixed; top: 110px; left: 70px; z-index: 2; font-size: 18px; margin: 0; }
   .item-container { display: block; }
   .item-spacer { display: none; }
-  .item-image { display: flex; justify-content: center; margin-left: calc(50vw - 20px); }
+
+  /* 文字放左側固定區塊 */
+  .text-content {
+    position: fixed;
+    top: 150px;
+    left: 70px;
+    width: 600px;
+    line-height: 1.5;
+    z-index: 2;
+  }
+
+  /* 圖片在右側區塊水平、垂直都置中，放大一些 */
+  .item-image {
+    position: fixed;
+    top: 0;
+    left: calc(50vw + 50px);
+    right: 70px;
+    height: 100vh;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .item-image img {
+    width: auto;
+    height: auto;
+    max-width: min(650px, calc(50vw - 140px));
+    max-height: 90vh;
+  }
 </style>
 </head>
 
@@ -66,6 +94,10 @@
   <!-- main content -->
    <main class="container">
      <h1>Estéfana Román Matesanz</h1>
+
+    <div class="text-content">
+        <p>Smells like mint</p>
+    </div>
 
     <div class="content-wrapper">
       <div class="item-container">

@@ -40,6 +40,56 @@
   .text-content { position: fixed; top: 150px; left: 70px; z-index: 2; }
   .image-gallery { flex: none; margin-left: calc(50vw - 20px); }
   .main-content-container { display: block; }
+
+  /* 拉開 02 系列與 03 系列之間的距離 */
+  .image-gallery .item-image:nth-child(5),
+  .image-gallery .item-image:nth-child(6) {
+    margin-top: 60px;
+  }
+
+  /* 01 系列改成左側幻燈片，一次顯示一張、自動輪播，下方有進度條可手動換下一張 */
+  .slideshow {
+    position: fixed;
+    top: 150px;
+    left: 70px;
+    width: 500px;
+    height: calc(100vh - 190px);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .slideshow-images {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    cursor: url('../img/cursor-pointer.png'), pointer;
+  }
+  .slideshow-images img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .slideshow-images img.active {
+    opacity: 1;
+  }
+  .slideshow-progress {
+    flex-shrink: 0;
+    height: 4px;
+    margin-top: 12px;
+    background: #ddd;
+    cursor: url('../img/cursor-pointer.png'), pointer;
+  }
+  .slideshow-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: black;
+    transition: width 0.3s ease;
+  }
 </style>
 </head>
 
@@ -67,20 +117,26 @@
   <!-- main content -->
    <main class="container">
      <h1>Emily Randlkofer</h1>
-     
+
+      <div class="slideshow">
+        <div class="slideshow-images">
+          <img src="../img/works/04_Emily Randlkofer/01-1.jpg" alt="Emily Randlkofer work 1" class="work-image active">
+          <img src="../img/works/04_Emily Randlkofer/01-2.jpg" alt="Emily Randlkofer work 2" class="work-image">
+          <img src="../img/works/04_Emily Randlkofer/01-3.jpg" alt="Emily Randlkofer work 3" class="work-image">
+          <img src="../img/works/04_Emily Randlkofer/01-4.jpg" alt="Emily Randlkofer work 4" class="work-image">
+        </div>
+        <div class="slideshow-progress"><div class="slideshow-progress-fill"></div></div>
+      </div>
+
       <div class="image-gallery">
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/01-4.jpg" alt="Emily Randlkofer work 1" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/03-4.jpg" alt="Emily Randlkofer work 2" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/01-3.jpg" alt="Emily Randlkofer work 3" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/03-1.jpg" alt="Emily Randlkofer work 4" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/01-2.jpg" alt="Emily Randlkofer work 5" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/03-2.jpg" alt="Emily Randlkofer work 6" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/03-3.jpg" alt="Emily Randlkofer work 7" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/01-1.jpg" alt="Emily Randlkofer work 8" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/02-4.jpg" alt="Emily Randlkofer work 9" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/02-2.jpg" alt="Emily Randlkofer work 10" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/02-3.jpg" alt="Emily Randlkofer work 11" class="work-image"></div>
-        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/02-1.jpg" alt="Emily Randlkofer work 12" class="work-image"></div>
+        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/02-1.jpg" alt="Emily Randlkofer work 5" class="work-image"></div>
+        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/02-2.jpg" alt="Emily Randlkofer work 6" class="work-image"></div>
+        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/02-3.jpg" alt="Emily Randlkofer work 7" class="work-image"></div>
+        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/02-4.jpg" alt="Emily Randlkofer work 8" class="work-image"></div>
+        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/03-1.jpg" alt="Emily Randlkofer work 9" class="work-image"></div>
+        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/03-2.jpg" alt="Emily Randlkofer work 10" class="work-image"></div>
+        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/03-3.jpg" alt="Emily Randlkofer work 11" class="work-image"></div>
+        <div class="item-image"><img src="../img/works/04_Emily Randlkofer/03-4.jpg" alt="Emily Randlkofer work 12" class="work-image"></div>
       </div>
     </div>
 </main>
@@ -101,6 +157,39 @@
 </div>
 
 <script src="../lightbox.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.slideshow-images img');
+    const imagesEl = document.querySelector('.slideshow-images');
+    const progressBar = document.querySelector('.slideshow-progress');
+    const progressFill = document.querySelector('.slideshow-progress-fill');
+    if (!slides.length) return;
+
+    let current = 0;
+
+    function updateProgress() {
+      if (progressFill) {
+        progressFill.style.width = ((current + 1) / slides.length * 100) + '%';
+      }
+    }
+
+    function showSlide(index) {
+      slides[current].classList.remove('active');
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      updateProgress();
+    }
+
+    function nextSlide() {
+      showSlide(current + 1);
+    }
+
+    if (imagesEl) imagesEl.addEventListener('click', nextSlide);
+    if (progressBar) progressBar.addEventListener('click', nextSlide);
+
+    updateProgress();
+  });
+</script>
 </body>
 
 </html>
