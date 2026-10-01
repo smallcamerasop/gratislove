@@ -116,15 +116,15 @@ const galleryImages = [
     "link": "PARTICIPANTS/Keshin Su.html"
   },
   {
-    "path": "img/works/ 07_Léna Lacrabère/01.jpg",
+    "path": "img/works/07_Lena_Lacrabere/01.jpg",
     "link": "PARTICIPANTS/Léna Lacrabère.html"
   },
   {
-    "path": "img/works/ 07_Léna Lacrabère/03.jpg",
+    "path": "img/works/07_Lena_Lacrabere/03.jpg",
     "link": "PARTICIPANTS/Léna Lacrabère.html"
   },
   {
-    "path": "img/works/ 07_Léna Lacrabère/02.jpg",
+    "path": "img/works/07_Lena_Lacrabere/02.jpg",
     "link": "PARTICIPANTS/Léna Lacrabère.html"
   },
   {
@@ -265,7 +265,7 @@ const galleryImages = [
     "link": "PARTICIPANTS/Linus Weber.html"
   },
   {
-    "path": "img/works/05_Estéfana Román Matesanz/smells like mint.jpg",
+    "path": "img/works/05_Estefana_Roman_Matesanz/smells_like_mint.jpg",
     "link": "PARTICIPANTS/Estéfana Román Matesanz.html"
   },
   {
