@@ -55,6 +55,30 @@ pre {
   background-color: rgb(132, 112, 233);
 }
 
+/* 參與者名單：每個名字不在中間斷行 */
+.participants-page .project-text a {
+  white-space: nowrap;
+}
+
+/* 參與者名單：hover 名字時右側出現的預覽圖 */
+.participant-preview {
+  position: fixed;
+  top: 150px;
+  left: calc(50vw + 50px);
+  width: calc(50vw - 120px);
+  height: calc(100vh - 220px);
+  object-fit: contain;
+  object-position: center;
+  filter: grayscale(100%);
+  mix-blend-mode: multiply; /* 跟紫色背景融合 */
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.participant-preview.visible {
+  opacity: 1;
+}
+
 .recipes-page {
   background-color: rgb(195, 237, 244);
 }
