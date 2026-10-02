@@ -39,6 +39,11 @@ h1 {
   font-weight: bold;
  }
 
+/* 禁止整頁左右滑動，只保留上下捲動 */
+html, body {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   font-family: "Courier Prime", monospace;
@@ -131,7 +136,7 @@ pre {
 
 /* main layout */
 .container {
-  width: 100vw;
+  width: 100%; /* 100vw 會把垂直捲軸寬度也算進去，導致可以左右滑動 */
   min-height: 100vh;
   padding: 70px;
   position: relative;
@@ -450,7 +455,12 @@ footer {
   position: fixed;
   top: 110px; /* 對齊原本 container padding(70px) + margin-top(40px) 的位置 */
   left: 70px;
+  margin-top: 0; /* fixed 時 margin 會再往下推，已經算進 top 裡 */
   z-index: 2;
+}
+/* fixed 區塊內 h1 的上邊距不會跟外層合併，歸零才會跟 participants / recipes 的標題同高 */
+.workshop-page .project-text h1 {
+  margin-top: 0;
 }
 
 /* 右半邊從 index-links (視窗正中央) 開始，圖片在這個範圍內置中 */
