@@ -575,7 +575,7 @@ footer {
   top: 50%;
   left: calc(50vw + 50px + (50vw - 120px) / 2); /* 右半邊區塊的水平中心 */
   transform: translate(-50%, -50%);
-  width: 440px;
+  width: 380px;
   height: auto;
   z-index: 1;
 }
