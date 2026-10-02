@@ -39,6 +39,17 @@
   .item-container { display: block; }
   .item-spacer { display: none; }
   .item-image { display: flex; justify-content: center; margin-left: calc(50vw - 20px); }
+
+  /* 作品固定在右半邊，於視窗中上下置中 */
+  .item-image {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: calc(50vw + 50px);
+    right: 70px;
+    margin-left: 0;
+    align-items: center;
+  }
 </style>
 </head>
 
@@ -84,6 +95,11 @@
       </div>
     </div>
 </main>
+
+    <!-- 左下角 footer -->
+    <footer>
+      <p>Recipe: Fried Brain</p>
+    </footer>
     <!-- navigation -->
     <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>

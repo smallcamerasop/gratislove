@@ -47,21 +47,22 @@
     margin-top: 60px;
   }
 
-  /* 01 系列改成左側幻燈片，一次顯示一張、自動輪播，下方有進度條可手動換下一張 */
+  /* 01 系列改成左側幻燈片，一次顯示一張，下方圓點表示目前第幾張、可點擊切換 */
   .slideshow {
     position: fixed;
     top: 150px;
+    bottom: 90px; /* 底部留空間給左下角 footer，不重疊 */
     left: 70px;
     width: 500px;
-    height: calc(100vh - 190px);
     z-index: 2;
-    display: flex;
-    flex-direction: column;
   }
+  /* 圖片區域：底部預留圓點的空間，圖片在區域內上下置中 */
   .slideshow-images {
-    position: relative;
-    flex: 1;
-    min-height: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 36px;
     cursor: url('../img/cursor-pointer.png'), pointer;
   }
   .slideshow-images img {
@@ -72,23 +73,28 @@
     height: 100%;
     object-fit: contain;
     opacity: 0;
-    transition: opacity 0.8s ease;
   }
   .slideshow-images img.active {
     opacity: 1;
   }
-  .slideshow-progress {
-    flex-shrink: 0;
-    height: 4px;
-    margin-top: 12px;
-    background: #ddd;
+  /* 圓點的垂直位置由 JS 依目前圖片實際顯示的底邊計算 */
+  .slideshow-dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  .slideshow-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid black;
     cursor: url('../img/cursor-pointer.png'), pointer;
   }
-  .slideshow-progress-fill {
-    height: 100%;
-    width: 0%;
+  .slideshow-dot.active {
     background: black;
-    transition: width 0.3s ease;
   }
 </style>
 </head>
@@ -125,7 +131,7 @@
           <img src="../img/works/04_Emily Randlkofer/01-3.jpg" alt="Emily Randlkofer work 3" class="work-image">
           <img src="../img/works/04_Emily Randlkofer/01-4.jpg" alt="Emily Randlkofer work 4" class="work-image">
         </div>
-        <div class="slideshow-progress"><div class="slideshow-progress-fill"></div></div>
+        <div class="slideshow-dots"></div>
       </div>
 
       <div class="image-gallery">
@@ -140,6 +146,11 @@
       </div>
     </div>
 </main>
+
+    <!-- 左下角 footer -->
+    <footer>
+      <p>Recipe: Roast Chicken, Chickoo Ice cream</p>
+    </footer>
     <!-- navigation -->
       <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
@@ -161,33 +172,49 @@
   document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.slideshow-images img');
     const imagesEl = document.querySelector('.slideshow-images');
-    const progressBar = document.querySelector('.slideshow-progress');
-    const progressFill = document.querySelector('.slideshow-progress-fill');
+    const dotsEl = document.querySelector('.slideshow-dots');
     if (!slides.length) return;
 
     let current = 0;
 
-    function updateProgress() {
-      if (progressFill) {
-        progressFill.style.width = ((current + 1) / slides.length * 100) + '%';
-      }
-    }
+    // 每張圖一個圓點
+    const dots = Array.from(slides, (_, i) => {
+      const dot = document.createElement('span');
+      dot.className = 'slideshow-dot';
+      dot.addEventListener('click', () => showSlide(i));
+      dotsEl.appendChild(dot);
+      return dot;
+    });
 
     function showSlide(index) {
       slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
       current = (index + slides.length) % slides.length;
       slides[current].classList.add('active');
-      updateProgress();
+      dots[current].classList.add('active');
+      placeDots();
     }
 
-    function nextSlide() {
-      showSlide(current + 1);
+    // 圓點固定在「最高那張圖」（直式的 01-2 ~ 01-4）實際顯示範圍的底邊下方 16px，
+    // 換到較矮的橫圖時圓點不跟著移動
+    const DOT_GAP = 16;
+    function placeDots() {
+      const boxW = imagesEl.clientWidth;
+      const boxH = imagesEl.clientHeight;
+      let shownH = 0;
+      slides.forEach(img => {
+        if (!img.naturalWidth) return;
+        shownH = Math.max(shownH, Math.min(boxH, boxW * img.naturalHeight / img.naturalWidth));
+      });
+      if (!shownH) return;
+      dotsEl.style.top = ((boxH + shownH) / 2 + DOT_GAP) + 'px';
     }
+    slides.forEach(img => img.addEventListener('load', placeDots));
+    window.addEventListener('resize', placeDots);
 
-    if (imagesEl) imagesEl.addEventListener('click', nextSlide);
-    if (progressBar) progressBar.addEventListener('click', nextSlide);
+    if (imagesEl) imagesEl.addEventListener('click', () => showSlide(current + 1));
 
-    updateProgress();
+    showSlide(0);
   });
 </script>
 </body>
