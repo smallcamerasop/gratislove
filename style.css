@@ -65,7 +65,7 @@ pre {
   white-space: nowrap;
 }
 
-/* 參與者名單：hover 名字時右側出現的預覽圖 */
+/* participants.html：hover 名字時右側出現的預覽圖 */
 .participant-preview {
   position: fixed;
   top: 150px;
@@ -74,11 +74,13 @@ pre {
   height: calc(100vh - 220px);
   object-fit: contain;
   object-position: center;
-  filter: grayscale(100%);
-  mix-blend-mode: multiply; /* 跟紫色背景融合 */
   opacity: 0;
   pointer-events: none;
   z-index: 1;
+}
+.participant-preview {
+  filter: grayscale(100%);
+  mix-blend-mode: multiply; /* 跟紫色背景融合 */
 }
 .participant-preview.visible {
   opacity: 1;
@@ -86,6 +88,43 @@ pre {
 
 .recipes-page {
   background-color: rgb(195, 237, 244);
+}
+
+/* recipes.html：分類之間留固定間距，分類標題緊貼下方的菜名 */
+.recipe-group + .recipe-group {
+  margin-top: 2.5em;
+}
+.recipe-category {
+  margin: 0 0 0.5em;
+}
+.recipe-list {
+  margin: 0;
+  line-height: 2;
+}
+/* recipes.html 右側的筆記本，位置與 participants 的預覽圖相同 */
+.recipe-book {
+  position: fixed;
+  top: 150px;
+  left: calc(50vw + 50px);
+  width: calc(50vw - 120px);
+  height: calc(100vh - 220px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+/* 所有頁面用同一個高度：封面 / 封底（直式單頁）與內頁（橫式跨頁）一樣高。
+   高度取「區塊高度」與「區塊寬度 ÷ 最寬內頁比例 1.56」中較小者，確保最寬的跨頁也放得下 */
+.recipe-book-page {
+  display: block;
+  height: min(calc(100vh - 220px), calc((50vw - 120px) / 1.56));
+  width: auto;
+}
+
+/* 每道菜名不在中間斷行 */
+.recipe-list span {
+  white-space: nowrap;
 }
 
 .workshop-page {
@@ -168,7 +207,7 @@ pre {
 /* hover 在 "notebook" 文字上時，游標旁顯示 00.jpg 預覽圖 */
 .notebook-word {
   position: relative;
-  cursor: url('img/cursor-pointer.png'), pointer;
+  cursor: url('img/cursor-default.png'), auto; /* 不可點擊，維持預設游標 */
 }
 
 .notebook-word-preview {
@@ -358,6 +397,7 @@ button,
 .close-btn, 
 #openNotebook, 
 #imageWrapper,
+.recipe-book-page,
 .image-grid .grid-item img,
 [role="button"] {
   cursor: url('img/cursor-pointer.png'), pointer !important;
