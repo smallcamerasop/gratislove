@@ -10,17 +10,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
   .content-wrapper {
-    margin-top: 100px;
+    margin-top: 90px;
     font-family: "Courier Prime", monospace;
   }
   .two-column-container {
     display: flex;
   }
   .text-column {
-    width: 800px;
+    width: 720px;
     line-height: 1.5;
     flex-shrink: 0;
-    padding-right: 20px;
+    padding-right: 18px;
   }
   .image-column {
     flex: 1;
@@ -30,20 +30,20 @@
   .image-column img {
     max-width: 100%;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
-  h1 { position: fixed; top: 110px; left: 70px; width: 800px; text-align: center; z-index: 2; font-size: 18px; margin: 0; }
+  h1 { position: fixed; top: 99px; left: 63px; width: 720px; text-align: center; z-index: 2; font-size: 16px; margin: 0; }
   .two-column-container { display: block; }
-  .text-column { position: fixed; top: 150px; left: 70px; z-index: 2; }
+  .text-column { position: fixed; top: 135px; left: 63px; z-index: 2; }
 
   /* 圖片改成堆疊：固定在右側，捲動時第二、三張依序疊上來 */
   .image-column {
     display: block;
     position: fixed;
-    top: 150px;
-    left: calc(50vw - 20px);
-    right: 70px;
-    height: calc(100vh - 190px);
+    top: 135px;
+    left: calc(50vw - 18px);
+    right: 63px;
+    height: calc(100vh - 171px);
     margin-left: 0;
   }
   .image-stack {

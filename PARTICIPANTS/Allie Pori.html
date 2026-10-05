@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
   .content-wrapper {
-    margin-top: 100px;
+    margin-top: 90px;
     font-family: "Courier Prime", monospace;
   }
 
@@ -18,21 +18,21 @@
     flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 9px;
   }
   .item-image img {
     width: 100%;
     height: auto;
   }
 
-  h1 { position: fixed; top: 110px; left: 70px; width: 800px; text-align: center; z-index: 2; font-size: 18px; margin: 0; }
+  h1 { position: fixed; top: 99px; left: 63px; width: 720px; text-align: center; z-index: 2; font-size: 16px; margin: 0; }
 
   /* 文字放左側固定區塊，圖片都放右側 */
   .text-content {
     position: fixed;
-    top: 150px;
-    left: 70px;
-    width: 800px;
+    top: 135px;
+    left: 63px;
+    width: 720px;
     line-height: 1.5;
     z-index: 2;
   }
@@ -40,8 +40,8 @@
   .image-gallery {
     position: fixed;
     top: 0;
-    left: calc(50vw + 50px);
-    right: 70px;
+    left: calc(50vw + 45px);
+    right: 63px;
     height: 100vh;
     margin-left: 0;
     display: flex;
@@ -55,7 +55,7 @@
   .image-gallery .item-image img {
     grid-area: 1 / 1;
     width: auto;
-    max-width: min(650px, calc(50vw - 140px));
+    max-width: min(585px, calc(50vw - 126px));
     max-height: 85vh;
     opacity: 0;
     transition: opacity 0.6s ease;

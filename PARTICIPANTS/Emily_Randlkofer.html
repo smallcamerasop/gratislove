@@ -10,15 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
   .content-wrapper {
-    margin-top: 100px;
+    margin-top: 90px;
     font-family: "Courier Prime", monospace;
   }
   .main-content-container {
     display: flex;
-    gap: 20px;
+    gap: 18px;
   }
   .text-content {
-    width: 800px;
+    width: 720px;
     line-height: 1.5;
   }
   .text-content pre {
@@ -29,31 +29,31 @@
     flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 9px;
   }
   .item-image img {
     width: 100%;
     height: auto;
   }
 
-  h1 { position: fixed; top: 110px; left: 70px; width: 800px; text-align: center; z-index: 2; font-size: 18px; margin: 0; }
-  .text-content { position: fixed; top: 150px; left: 70px; z-index: 2; }
-  .image-gallery { flex: none; margin-left: calc(50vw - 20px); }
+  h1 { position: fixed; top: 99px; left: 63px; width: 720px; text-align: center; z-index: 2; font-size: 16px; margin: 0; }
+  .text-content { position: fixed; top: 135px; left: 63px; z-index: 2; }
+  .image-gallery { flex: none; margin-left: calc(50vw - 18px); }
   .main-content-container { display: block; }
 
   /* 拉開 02 系列與 03 系列之間的距離 */
   .image-gallery .item-image:nth-child(5),
   .image-gallery .item-image:nth-child(6) {
-    margin-top: 60px;
+    margin-top: 54px;
   }
 
   /* 01 系列改成左側幻燈片，一次顯示一張，下方圓點表示目前第幾張、可點擊切換 */
   .slideshow {
     position: fixed;
-    top: 150px;
-    bottom: 90px; /* 底部留空間給左下角 footer，不重疊 */
-    left: 70px;
-    width: 500px;
+    top: 135px;
+    bottom: 81px; /* 底部留空間給左下角 footer，不重疊 */
+    left: 63px;
+    width: 450px;
     z-index: 2;
   }
   /* 圖片區域：底部預留圓點的空間，圖片在區域內上下置中 */
@@ -62,7 +62,7 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 36px;
+    bottom: 32px;
     cursor: url('../img/cursor-pointer.png'), pointer;
   }
   .slideshow-images img {
@@ -84,11 +84,11 @@
     right: 0;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 9px;
   }
   .slideshow-dot {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     border: 1px solid black;
     cursor: url('../img/cursor-pointer.png'), pointer;
@@ -195,9 +195,9 @@
       placeDots();
     }
 
-    // 圓點固定在「最高那張圖」（直式的 01-2 ~ 01-4）實際顯示範圍的底邊下方 16px，
+    // 圓點固定在「最高那張圖」（直式的 01-2 ~ 01-4）實際顯示範圍的底邊下方 14px，
     // 換到較矮的橫圖時圓點不跟著移動
-    const DOT_GAP = 16;
+    const DOT_GAP = 14;
     function placeDots() {
       const boxW = imagesEl.clientWidth;
       const boxH = imagesEl.clientHeight;
