@@ -137,11 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Only show the "scroll down to see the gallery" hint while at the very top of the page
 document.addEventListener('DOMContentLoaded', () => {
-  const scrollHint = document.getElementById('scrollHint');
-  if (!scrollHint) return;
+  // 首頁底部的提示文字與右側圖片區 footer，往下捲動就一起隱藏
+  const hints = document.querySelectorAll('#scrollHint, footer.object-caption');
+  if (!hints.length) return;
 
   const updateScrollHint = () => {
-    scrollHint.classList.toggle('hidden', window.scrollY > 0);
+    hints.forEach(el => el.classList.toggle('hidden', window.scrollY > 0));
   };
 
   updateScrollHint();

@@ -27,7 +27,7 @@
   
      <!-- top navigation -->
   <nav class="top-links">
-    <a href="index.html" class="home-link">GRATIS LOVE - Cooking in Minutes</a>
+    <a href="index.html" class="home-link">GRATIS LOVE</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
     <a href="get-involved.html">(GET INVOLVED)</a>
     <a href="imprint.html">(IMPRINT)</a>
@@ -43,12 +43,14 @@
       This is one way to look at the Collage, yes. But if you think outside of an individual scenario?
       Each one of us, separate backgrounds, chopped schedules, butchered passions, cut up…… meeting on the same plate, glued into the same sheet of paper. 
       </p>
-      <div class="space-1"></div>
-      <p>PARTICIPANTS</p>
-      <p>Deniz çalışkan, Hsiao-Yen Yao, Lucie Lin, Nana Ehrsam, Yuh-Chyi Liou</p>
-      <div class="space-1"></div>
-      <p>RECIPES</p>
-      <p>Chicken Kabab / Rice or Rasam / Roast Beef / Avocado Ice cream</p>
+      <!-- PARTICIPANTS 開頭與中間直式導覽 RECIPES 的「R」對齊（位置由下方 JS 計算） -->
+      <div class="workshop-info" id="workshopInfo">
+        <p>PARTICIPANTS</p>
+        <p>Deniz çalışkan, Hsiao-Yen Yao, Lucie Lin, Nana Ehrsam, Yuh-Chyi Liou</p>
+        <div class="space-1"></div>
+        <p>RECIPES</p>
+        <p>Chicken Kabab / Rice or Rasam / Roast Beef / Avocado Ice cream</p>
+      </div>
 
     </section>
     <div class="workshop-grid">
@@ -71,6 +73,29 @@
       <p></p>
     </footer>
 
+<script>
+  // 讓「PARTICIPANTS」與直式導覽 RECIPES 的第一個字母「R」垂直置中對齊
+  // （文字區是 position: fixed，直接用視窗座標比較，不需加上捲動距離）
+  (() => {
+    const block = document.getElementById('workshopInfo');
+    const title = block && block.querySelector('p');
+    if (!title) return;
+
+    const align = () => {
+      const r = document.querySelector('.index-links a[href$="recipes.html"] .letter');
+      if (!r) return;
+      block.style.paddingTop = '0px';
+      const rRect = r.getBoundingClientRect();
+      const tRect = title.getBoundingClientRect();
+      const diff = (rRect.top + rRect.height / 2) - (tRect.top + tRect.height / 2);
+      block.style.paddingTop = Math.max(0, diff) + 'px';
+    };
+
+    document.addEventListener('DOMContentLoaded', align);
+    window.addEventListener('load', align); // 字體載入後再算一次
+    window.addEventListener('resize', align);
+  })();
+</script>
 </body>
 
 </html>

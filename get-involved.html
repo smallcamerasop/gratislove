@@ -22,10 +22,10 @@
 
 <script src="script.js"></script>
 
-<body>
+<body class="get-involved-page">
      <!-- top navigation -->
   <nav class="top-links">
-    <a href="index.html" class="home-link">GRATIS LOVE - Cooking in Minutes</a>
+    <a href="index.html" class="home-link">GRATIS LOVE</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
     <a href="get-involved.html">(GET INVOLVED)</a>
     <a href="imprint.html">(IMPRINT)</a>
@@ -34,17 +34,16 @@
   <!-- main content -->
    <main class="container">
     <!-- left text -->
-    <section class="project-text">
+    <!-- 整段文字往下移，內文第一行與中間直式導覽 RECIPES 的「R」對齊（位置由下方 JS 計算） -->
+    <section class="project-text" id="getInvolvedText">
       <h1>GET INVOLVED</h1>
       <p>
         The notebook is never finished.
 You are invited to write, respond, draw, or add fragments to its pages. Each interaction extends the archive and connects unknown contributors across time and place.
 Participation keeps the notebook alive!
-<div class="space-1">
-<a href="https://www.instagram.com/smallcameras.op" >DM us to join :)</a>
-</div>
-
       </p>
+      <!-- 與直式導覽 WORKSHOP 的「W」對齊（位置由下方 JS 計算） -->
+      <p id="joinLink"><a href="https://www.instagram.com/smallcameras.op">DM us to join :)</a></p>
       <img src="img/opencall.gif" class="opencall-image" alt="Open Call">
     </section>
     
@@ -61,6 +60,56 @@ Participation keeps the notebook alive!
       <p></p>
     </footer>
 
+<script>
+  // 讓內文第一行（The notebook is never finished…）與直式導覽 RECIPES 的「R」垂直置中對齊，
+  // 「DM us to join :)」與 WORKSHOP 的「W」垂直置中對齊
+  (() => {
+    const block = document.getElementById('getInvolvedText');
+    const para = block && block.querySelector('p');
+    if (!para) return;
+
+    // 取內文第一個非空白字元所在那一行的位置
+    const firstLineRect = () => {
+      const walker = document.createTreeWalker(para, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        const i = node.textContent.search(/\S/);
+        if (i === -1) continue;
+        const range = document.createRange();
+        range.setStart(node, i);
+        range.setEnd(node, i + 1);
+        return range.getBoundingClientRect();
+      }
+      return para.getBoundingClientRect();
+    };
+
+    const align = () => {
+      const r = document.querySelector('.index-links a[href$="recipes.html"] .letter');
+      if (!r) return;
+      block.style.paddingTop = '0px';
+      const rRect = r.getBoundingClientRect();
+      const tRect = firstLineRect();
+      const rCenter = rRect.top + rRect.height / 2;
+      const tCenter = tRect.top + window.scrollY + tRect.height / 2;
+      block.style.paddingTop = Math.max(0, rCenter - tCenter) + 'px';
+
+      // 用 padding 而非 margin，避免跟上一段的段落邊距合併造成位移不準
+      const join = document.getElementById('joinLink');
+      const w = document.querySelector('.index-links a[href$="workshop.html"] .letter');
+      if (!join || !w) return;
+      join.style.paddingTop = '0px';
+      const wRect = w.getBoundingClientRect();
+      const jRect = join.querySelector('a').getBoundingClientRect();
+      const wCenter = wRect.top + wRect.height / 2;
+      const jCenter = jRect.top + window.scrollY + jRect.height / 2;
+      join.style.paddingTop = Math.max(0, wCenter - jCenter) + 'px';
+    };
+
+    document.addEventListener('DOMContentLoaded', align);
+    window.addEventListener('load', align); // 字體載入後再算一次
+    window.addEventListener('resize', align);
+  })();
+</script>
 </body>
 
 </html>

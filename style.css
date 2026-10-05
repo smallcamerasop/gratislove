@@ -151,9 +151,8 @@ pre {
   pointer-events: none; /* 讓空白處不擋住下方的直式導覽 */
 }
 
+/* home-link 字體與大小沿用 .top-links a（與右側連結一致） */
 .top-links a.home-link {
-    font-family: 'GratisLoveCustom', monospace;
-    font-size: 35px;
     margin-right: auto;
 }
 
@@ -167,6 +166,21 @@ pre {
   cursor: pointer;
   pointer-events: auto;
   z-index: 1001; /* above .top-links container */
+}
+
+/* 全站（位置以首頁為準）：home-link 置中於左側文字欄（800px），與 PUBLICATION NO. 01 / COOKING IN MINUTES 對齊；
+   右側三個連結置中於右側圖片區域（.object-area：left 950px ~ right 70px） */
+.top-links {
+  justify-content: center;
+  padding-left: 890px; /* 950px - .top-links 本身的 left 60px */
+  padding-right: 10px; /* 70px - .top-links 本身的 right 60px */
+}
+.top-links a.home-link {
+  position: absolute;
+  left: 410px; /* 文字欄中心：70px + 800px / 2，再扣掉 .top-links 本身的 60px */
+  transform: translateX(-50%); /* 只有文字本身可點，不會整條 800px 都是連結 */
+  white-space: nowrap;
+  margin-right: 0;
 }
 
 .top-links a + a {
@@ -190,6 +204,7 @@ pre {
 
 /* 首頁 hero 區塊固定佔滿一個視窗高度，gallery 需要捲動才看得到 */
 #index-page .project-text {
+  width: 800px;
   min-height: 100vh;
   box-sizing: border-box;
 }
@@ -462,6 +477,11 @@ footer {
 #scrollHint {
   opacity: 1;
   transition: opacity 0.3s ease;
+  /* 置中於首頁左側文字欄（70px 起、800px 寬），與 PUBLICATION NO. 01 等標題對齊 */
+  left: 70px;
+  right: auto;
+  width: 800px;
+  text-align: center;
 }
 
 #scrollHint.hidden {
@@ -578,4 +598,82 @@ footer {
   width: 300px;
   height: auto;
   z-index: 1;
+}
+
+/* index.html：出版品編號、書名與段落標題置中 */
+.publication-no,
+.publication-title,
+.section-title {
+  text-align: center;
+}
+.publication-no {
+  font-size: 12px;
+}
+
+/* index.html：OUR PURPOSE 區塊。flow-root 讓 JS 設定的 margin-top 不會跟標題的段落邊距合併，位移才準確 */
+.purpose-block {
+  display: flow-root;
+}
+
+/* index.html：右側圖片區的 footer，置中於 .object-area（left 950px ~ right 70px） */
+footer.object-caption {
+  left: 950px;
+  right: 70px;
+  text-align: center;
+  transition: opacity 0.3s ease; /* 與 #scrollHint 相同的消失效果 */
+}
+footer.object-caption.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* get-involved.html：文字區寬度 */
+.get-involved-page .project-text {
+  width: 800px;
+  display: flow-root; /* 讓 JS 設定的 padding-top 位移準確，不受標題邊距合併影響 */
+}
+.get-involved-page .project-text h1 {
+  text-align: center;
+}
+
+/* participants.html：文字區寬度與標題置中（與 get-involved.html 一致） */
+.participants-page .project-text {
+  width: 800px;
+}
+.participants-page .project-text h1 {
+  text-align: center;
+}
+
+/* recipes.html：文字區寬度與標題置中（與 participants / get-involved 一致） */
+.recipes-page .project-text {
+  width: 800px;
+}
+.recipes-page .project-text h1 {
+  text-align: center;
+}
+
+/* workshop.html：文字區寬度與標題置中（與 participants / recipes / get-involved 一致） */
+.workshop-page .project-text {
+  width: 800px;
+}
+.workshop-page .project-text h1 {
+  text-align: center;
+}
+
+/* workshop.html：PARTICIPANTS / RECIPES 區塊。flow-root 讓 JS 設定的 padding-top 位移準確 */
+.workshop-info {
+  display: flow-root;
+}
+
+/* imprint.html：文字區寬度 800px（與其他頁面一致），標題置中 */
+.imprint-page .project-text {
+  width: 800px;
+}
+.imprint-page .project-text h1 {
+  text-align: center;
+}
+
+/* imprint.html：COPYRIGHT 區塊。flow-root 讓 JS 設定的 padding-top 位移準確 */
+.copyright-block {
+  display: flow-root;
 }

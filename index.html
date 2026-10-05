@@ -26,7 +26,7 @@
 <body id="index-page">
      <!-- top navigation -->
   <nav class="top-links">
-    <a href="index.html" class="home-link">GRATIS LOVE - Cooking in Minutes</a>
+    <a href="index.html" class="home-link">GRATIS LOVE</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
     <a href="get-involved.html">(GET INVOLVED)</a>
     <a href="imprint.html">(IMPRINT)</a>
@@ -49,22 +49,16 @@
    <main class="container">
     <!-- left text -->
     <section class="project-text">
-      <p>
-        GRATIS LOVE begins with a <span class="notebook-word">notebook<img src="img/pages/00.jpg" alt="00.jpg" class="notebook-word-preview"></span> found in public space and filled with handwritten recipes, which serves as a catalyst for collective response.
-      </p>
-      <p>--</p>
+      <p class="publication-no">PUBLICATION NO. 01</p>
+      <p class="publication-title">COOKING IN MINUTES</p>
+      <p>A collective art book, born from a notebook of handwritten recipes found on the street.</p>
 
-      <p>OUR PURPOSE </p>
-To not let individuals feel overshadowed by centralized voices, we decided to create a(nother) platform for u to share what’s on your mind(perspective), at the same time, within a framework to create connections between people.
-Most important of all, for all to have fun and enjoyable art experiences!!
-
-<p>--</p>
-
- <p>WHERE ARE WE GOING?</p>
-
-The creations from each process of interacting with the <span class="notebook-word">notebook<img src="img/pages/00.jpg" alt="00.jpg" class="notebook-word-preview"></span> will be gathered and edited by us into a collective contributed art book. Following a launch party where all authors are invited to complete the experience package.
-
-      </p>
+      <!-- OUR PURPOSE 區塊往下移，標題與中間直式導覽 RECIPES 的「R」對齊（位置由下方 JS 計算） -->
+      <div class="purpose-block" id="purposeBlock">
+        <p class="section-title">OUR PURPOSE</p>
+        <p>To not let individuals feel overshadowed by centralized voices, we decided to create a(nother) platform for u to share what’s on your mind(perspective), at the same time, within a framework to create connections between people.
+        Most important of all, for all to have fun and enjoyable art experiences!!</p>
+      </div>
 
     </section>
     <!-- right image -->
@@ -101,7 +95,37 @@ The creations from each process of interacting with the <span class="notebook-wo
       <p>(SCROLL DOWN TO SEE THE GALLERY)</p>
     </footer>
 
+    <!-- 右側圖片區的 footer -->
+    <footer class="object-caption">
+      <p>The found notebook.</p>
+      <p>[Basel, 2025]</p>
+    </footer>
 
+
+<script>
+  // 讓 OUR PURPOSE 標題與直式導覽 RECIPES 的第一個字母「R」垂直置中對齊
+  (() => {
+    const block = document.getElementById('purposeBlock');
+    const title = block && block.querySelector('.section-title');
+    if (!title) return;
+
+    const align = () => {
+      const r = document.querySelector('.index-links a[href$="recipes.html"] .letter');
+      if (!r) return;
+      block.style.marginTop = '0px';
+      const rRect = r.getBoundingClientRect();
+      const tRect = title.getBoundingClientRect();
+      // 以頁面頂端（未捲動）為準計算位置
+      const rCenter = rRect.top + rRect.height / 2;
+      const tCenter = tRect.top + window.scrollY + tRect.height / 2;
+      block.style.marginTop = Math.max(0, rCenter - tCenter) + 'px';
+    };
+
+    document.addEventListener('DOMContentLoaded', align);
+    window.addEventListener('load', align); // 字體載入後再算一次
+    window.addEventListener('resize', align);
+  })();
+</script>
 </body>
 
 </html>

@@ -22,10 +22,10 @@
 
 <script src="script.js"></script>
 
-<body>
+<body class="imprint-page">
      <!-- top navigation -->
   <nav class="top-links">
-    <a href="index.html" class="home-link">GRATIS LOVE - Cooking in Minutes</a>
+    <a href="index.html" class="home-link">GRATIS LOVE</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
     <a href="get-involved.html">(GET INVOLVED)</a>
     <a href="imprint.html">(IMPRINT)</a>
@@ -35,8 +35,6 @@
    <main class="container">
     <!-- left text -->
     <section class="project-text">
-      <h1>IMPRINT</h1>
-
        <div class="space-1"></div>
 
         <p>PROJECT INITIATORS</p>
@@ -50,14 +48,11 @@
 
         <p>Basel, Switzerland</p>
 
-        <div class="space-1"></div>
-        <div class="space-1"></div>
-        <div class="space-1"></div>
-        <div class="space-1"></div>
-
-        <p>COPYRIGHT</p>
-        <p>All content, images, and texts on this website are protected by copyright unless otherwise stated. Contributions remain the property of their respective authors.</p>
-        <p></p>
+        <!-- COPYRIGHT 與中間直式導覽 RECIPES 的「R」對齊（位置由下方 JS 計算，取代原本的 4 個 space-1） -->
+        <div class="copyright-block" id="copyrightBlock">
+          <p>COPYRIGHT</p>
+          <p>All content, images, and texts on this website are protected by copyright unless otherwise stated. Contributions remain the property of their respective authors.</p>
+        </div>
     </section>
     
     <!-- bottom left navigation -->
@@ -77,6 +72,29 @@
     <!-- 右側置中圖片 -->
     <img src="img/YA.jpg" alt="GRATIS LOVE" class="imprint-corner-image">
 
+<script>
+  // 讓「COPYRIGHT」與直式導覽 RECIPES 的第一個字母「R」垂直置中對齊
+  (() => {
+    const block = document.getElementById('copyrightBlock');
+    const title = block && block.querySelector('p');
+    if (!title) return;
+
+    const align = () => {
+      const r = document.querySelector('.index-links a[href$="recipes.html"] .letter');
+      if (!r) return;
+      block.style.paddingTop = '0px';
+      const rRect = r.getBoundingClientRect();
+      const tRect = title.getBoundingClientRect();
+      const rCenter = rRect.top + rRect.height / 2;
+      const tCenter = tRect.top + window.scrollY + tRect.height / 2;
+      block.style.paddingTop = Math.max(0, rCenter - tCenter) + 'px';
+    };
+
+    document.addEventListener('DOMContentLoaded', align);
+    window.addEventListener('load', align); // 字體載入後再算一次
+    window.addEventListener('resize', align);
+  })();
+</script>
 </body>
 
 </html>
