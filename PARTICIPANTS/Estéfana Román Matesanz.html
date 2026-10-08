@@ -36,7 +36,7 @@
     flex: 1;
   }
 
-  h1 { position: fixed; top: 99px; left: 63px; width: 720px; text-align: center; z-index: 2; font-size: 16px; margin: 0; }
+  h1 { position: fixed; top: 99px; left: 63px; width: var(--text-col-width); text-align: center; z-index: 2; font-size: 16px; margin: 0; }
   .item-container { display: block; }
   .item-spacer { display: none; }
 
@@ -45,9 +45,12 @@
     position: fixed;
     top: 135px;
     left: 63px;
-    width: 720px;
+    width: var(--text-col-width);
     line-height: 1.5;
     z-index: 2;
+    max-height: calc(100vh - 198px); /* 視窗變矮時在區塊內捲動，不超出視窗 */
+    overflow-y: auto;
+    scrollbar-width: none;
   }
 
   /* 圖片在右側區塊水平、垂直都置中，放大一些 */
@@ -66,7 +69,7 @@
     width: auto;
     height: auto;
     max-width: min(585px, calc(50vw - 126px));
-    max-height: 90vh;
+    max-height: min(90vh, calc(100vh - 126px));
   }
 </style>
 </head>
@@ -86,7 +89,7 @@
 <body class="estefana-roman-matesanz-page">
      <!-- top navigation -->
   <nav class="top-links">
-    <a href="../index.html" class="home-link">GRATIS LOVE</a>
+    <a href="../index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
     <a href="../get-involved.html">(GET INVOLVED)</a>
     <a href="../imprint.html">(IMPRINT)</a>

@@ -33,6 +33,12 @@
   box-sizing: border-box;
 }
 
+/* 左側文字欄寬度：最寬 720px，視窗變窄時跟著縮小，右緣永遠停在 index-links（視窗正中央）左側 45px，
+   與右半邊區塊（left: 50vw + 45px）對稱，不會跟 index-links 重疊 */
+:root {
+  --text-col-width: min(720px, calc(50vw - 108px)); /* 108px = 左側 padding 63px + 與 index-links 的間距 45px */
+}
+
 h1 {
   font-size: 13px; 
   font-family: 'Courier Prime', Courier, monospace;
@@ -168,24 +174,24 @@ pre {
   z-index: 1001; /* above .top-links container */
 }
 
-/* 全站（位置以首頁為準）：home-link 置中於左側文字欄（720px），與 PUBLICATION NO. 01 / COOKING IN MINUTES 對齊；
-   右側三個連結置中於右側圖片區域（.object-area：left 855px ~ right 63px） */
+/* 全站（位置以首頁為準）：home-link 置中於左側文字欄（--text-col-width），與 PUBLICATION NO. 01 / COOKING IN MINUTES 對齊；
+   右側三個連結置中於右半邊區域（.object-area：left 50vw + 45px ~ right 63px），視窗變窄時跟著移動，不會跟 index-links 重疊 */
 .top-links {
   justify-content: center;
-  padding-left: 801px; /* 855px - .top-links 本身的 left 54px */
+  padding-left: calc(50vw - 9px); /* 50vw + 45px - .top-links 本身的 left 54px */
+  flex-wrap: wrap; /* 右半邊太窄放不下三個連結時換行，而不是往左超出 */
+  column-gap: 45px;
+  row-gap: 9px;
   padding-right: 9px; /* 63px - .top-links 本身的 right 54px */
 }
 .top-links a.home-link {
   position: absolute;
-  left: 369px; /* 文字欄中心：63px + 720px / 2，再扣掉 .top-links 本身的 54px */
-  transform: translateX(-50%); /* 只有文字本身可點，不會整條 720px 都是連結 */
+  left: calc(9px + var(--text-col-width) / 2); /* 文字欄中心：63px + 欄寬 / 2，再扣掉 .top-links 本身的 54px */
+  transform: translateX(-50%); /* 只有文字本身可點，不會整條文字欄都是連結 */
   white-space: nowrap;
   margin-right: 0;
 }
 
-.top-links a + a {
-  margin-left: 45px;
-}
 
 /* main layout */
 .container {
@@ -198,13 +204,14 @@ pre {
 /* left text */
 .project-text {
   width: 540px;
+  max-width: var(--text-col-width);
   line-height: 1.5;
   margin-top: 36px;
 }
 
 /* 首頁 hero 區塊固定佔滿一個視窗高度，gallery 需要捲動才看得到 */
 #index-page .project-text {
-  width: 720px;
+  width: var(--text-col-width);
   min-height: 100vh;
   box-sizing: border-box;
 }
@@ -252,7 +259,7 @@ p.initiators a {
 .object-area {
   position: absolute;
   top: 0;
-  left: 855px; /* 比 .project-text 右緣再往右一點，讓置中位置整體偏右 */
+  left: calc(50vw + 45px); /* 從 index-links（視窗正中央）右側 45px 開始，與其他頁面右半邊一致 */
   right: 63px; /* 對齊 .container 的右側 padding */
   height: 100vh;
   display: flex;
@@ -262,7 +269,9 @@ p.initiators a {
 }
 
 .notebook-cover {
-  width: 306px;
+  width: auto;
+  max-width: min(306px, 100%);
+  max-height: calc(100vh - 198px); /* 視窗變矮時跟著縮小，不碰到上方導覽與下方說明文字 */
   cursor: pointer;
 }
 
@@ -275,7 +284,9 @@ p.initiators a {
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
-  letter-spacing: 1.3em;
+  /* 字距隨視窗高度縮小，三個字永遠放得進上下 27px 之間，不會超出視窗或跟 footer 重疊：
+     共 27 個字母，每個字佔 13px + 字距；457px = 上下各 27px + 字與字之間至少 26px × 2 + 27 × 13px */
+  letter-spacing: clamp(0px, calc((100vh - 457px) / 27), 1.3em);
   pointer-events: none; /* 容器本身不干擾點擊 */
   box-sizing: border-box;
 }
@@ -477,10 +488,10 @@ footer {
 #scrollHint {
   opacity: 1;
   transition: opacity 0.3s ease;
-  /* 置中於首頁左側文字欄（63px 起、720px 寬），與 PUBLICATION NO. 01 等標題對齊 */
+  /* 置中於首頁左側文字欄（63px 起、寬度同 --text-col-width），與 PUBLICATION NO. 01 等標題對齊 */
   left: 63px;
   right: auto;
-  width: 720px;
+  width: var(--text-col-width);
   text-align: center;
 }
 
@@ -501,12 +512,14 @@ footer {
 /* 置中在 index-links 右側的區塊，做法與 .workshop-grid 一致 */
 .opencall-image {
   position: absolute;
-  left: calc(50vw - 18px); /* 避開置中的 index-links */
+  left: calc(50vw + 45px); /* 從 index-links（視窗正中央）右側 45px 開始，與其他頁面右半邊一致 */
   right: 63px; /* 對齊 .container 的右側 padding */
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  width: 450px;
+  width: auto;
+  max-width: min(450px, calc(50vw - 108px)); /* 右半邊比 450px 窄時跟著縮小，不會超出或碰到 index-links */
+  max-height: calc(100vh - 198px); /* 視窗變矮時跟著縮小，不碰到上方導覽 */
   height: auto;
 }
 
@@ -517,6 +530,9 @@ footer {
   left: 63px;
   margin-top: 0; /* fixed 時 margin 會再往下推，已經算進 top 裡 */
   z-index: 2;
+  max-height: calc(100vh - 162px); /* 99px + 底部留 63px；視窗變矮時文字在區塊內捲動，不會超出視窗 */
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 /* fixed 區塊內 h1 的上邊距不會跟外層合併，歸零才會跟 participants / recipes 的標題同高 */
 .workshop-page .project-text h1 {
@@ -595,8 +611,22 @@ footer {
   top: 50%;
   left: calc(50vw + 45px + (50vw - 108px) / 2); /* 右半邊區塊的水平中心 */
   transform: translate(-50%, -50%);
-  width: 270px;
+  width: auto;
+  max-width: min(270px, calc(50vw - 108px));
+  max-height: calc(100vh - 460px); /* 圖片置中，下緣要停在 Bon Appétit（bottom 155px，旋轉後約 70px 高）上方：(100vh - 460px) / 2 + 50vh ≤ 100vh - 230px */
   height: auto;
+  z-index: 1;
+}
+
+/* imprint.html：右下角的「\ Bon Appétit /」，傾斜 20 度 */
+.imprint-bon-appetit {
+  position: fixed;
+  right: 112px;
+  bottom: 155px;
+  width: 174px;
+  margin: 0;
+  text-align: center;
+  transform: rotate(20deg);
   z-index: 1;
 }
 
@@ -615,9 +645,9 @@ footer {
   display: flow-root;
 }
 
-/* index.html：右側圖片區的 footer，置中於 .object-area（left 855px ~ right 63px） */
+/* index.html：右側圖片區的 footer，置中於 .object-area（left 50vw + 45px ~ right 63px） */
 footer.object-caption {
-  left: 855px;
+  left: calc(50vw + 45px);
   right: 63px;
   text-align: center;
   transition: opacity 0.3s ease; /* 與 #scrollHint 相同的消失效果 */
@@ -629,7 +659,7 @@ footer.object-caption.hidden {
 
 /* get-involved.html：文字區寬度 */
 .get-involved-page .project-text {
-  width: 720px;
+  width: var(--text-col-width);
   display: flow-root; /* 讓 JS 設定的 padding-top 位移準確，不受標題邊距合併影響 */
 }
 .get-involved-page .project-text h1 {
@@ -638,7 +668,7 @@ footer.object-caption.hidden {
 
 /* participants.html：文字區寬度與標題置中（與 get-involved.html 一致） */
 .participants-page .project-text {
-  width: 720px;
+  width: var(--text-col-width);
 }
 .participants-page .project-text h1 {
   text-align: center;
@@ -646,7 +676,7 @@ footer.object-caption.hidden {
 
 /* recipes.html：文字區寬度與標題置中（與 participants / get-involved 一致） */
 .recipes-page .project-text {
-  width: 720px;
+  width: var(--text-col-width);
 }
 .recipes-page .project-text h1 {
   text-align: center;
@@ -654,7 +684,7 @@ footer.object-caption.hidden {
 
 /* workshop.html：文字區寬度與標題置中（與 participants / recipes / get-involved 一致） */
 .workshop-page .project-text {
-  width: 720px;
+  width: var(--text-col-width);
 }
 .workshop-page .project-text h1 {
   text-align: center;
@@ -665,9 +695,9 @@ footer.object-caption.hidden {
   display: flow-root;
 }
 
-/* imprint.html：文字區寬度 720px（與其他頁面一致），標題置中 */
+/* imprint.html：文字區寬度（與其他頁面一致），標題置中 */
 .imprint-page .project-text {
-  width: 720px;
+  width: var(--text-col-width);
 }
 .imprint-page .project-text h1 {
   text-align: center;
@@ -676,4 +706,17 @@ footer.object-caption.hidden {
 /* imprint.html：COPYRIGHT 區塊。flow-root 讓 JS 設定的 padding-top 位移準確 */
 .copyright-block {
   display: flow-root;
+}
+
+/* imprint.html：底部留空間給左下角兩行的 footer，捲到最下面時文字不會被蓋住 */
+.imprint-page .container {
+  padding-bottom: 135px;
+}
+
+/* 固定在左側的文字區塊（workshop.html 與 PARTICIPANTS 頁面）：視窗變矮時在區塊內捲動，隱藏捲軸 */
+.workshop-page .project-text::-webkit-scrollbar,
+.text-content::-webkit-scrollbar,
+.text-container::-webkit-scrollbar,
+.text-column::-webkit-scrollbar {
+  display: none;
 }
