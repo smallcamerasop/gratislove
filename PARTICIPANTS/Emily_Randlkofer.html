@@ -53,9 +53,9 @@
     position: fixed;
     top: 135px;
     bottom: 81px; /* 底部留空間給左下角 footer，不重疊 */
-    left: 63px;
-    width: 450px;
-    max-width: var(--text-col-width);
+    left: calc(63px + var(--text-col-width) / 2); /* 左側文字欄的水平中心 */
+    transform: translateX(-50%);
+    width: min(450px, var(--text-col-width));
     z-index: 2;
   }
   /* 圖片區域：底部預留圓點的空間，圖片在區域內上下置中 */
