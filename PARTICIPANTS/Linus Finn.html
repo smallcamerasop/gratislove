@@ -71,6 +71,31 @@
   .image-scroll-spacer {
     height: 300vh; /* 每張圖片對應約一個視窗高度的捲動距離 */
   }
+
+  /* 圖片右側的圓點進度條：已出現的圖片為實心，其餘為空心 */
+  .stack-dots {
+    position: fixed;
+    top: calc(135px + (100vh - 171px) / 2);
+    right: 27px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    z-index: 3;
+  }
+  .stack-dots button {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 1px solid black;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .stack-dots button.active {
+    background: black;
+  }
 </style>
 
 </head>
@@ -117,6 +142,11 @@
         </div>
       </div>
       <div class="image-scroll-spacer"></div>
+      <div class="stack-dots" aria-label="Image progress">
+        <button type="button" aria-label="Image 1"></button>
+        <button type="button" aria-label="Image 2"></button>
+        <button type="button" aria-label="Image 3"></button>
+      </div>
     </div>
 </main>
 
@@ -145,6 +175,7 @@
     const imgs = document.querySelectorAll('.image-stack img');
     const spacer = document.querySelector('.image-scroll-spacer');
     if (!imgs.length || !spacer) return;
+    const dots = document.querySelectorAll('.stack-dots button');
 
     const updateStack = () => {
       const rect = spacer.getBoundingClientRect();
@@ -153,7 +184,17 @@
       const progress = Math.min(Math.max(scrolled / totalHeight, 0), 0.999);
       const index = Math.floor(progress * imgs.length);
       imgs.forEach((img, i) => img.classList.toggle('active', i <= index));
+      dots.forEach((dot, i) => dot.classList.toggle('active', i <= index));
     };
+
+    // 點圓點捲動到對應圖片
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        const spacerTop = spacer.getBoundingClientRect().top + window.scrollY;
+        const step = spacer.offsetHeight / imgs.length;
+        window.scrollTo({ top: spacerTop + step * i + 1, behavior: 'smooth' });
+      });
+    });
 
     updateStack();
     window.addEventListener('scroll', updateStack);

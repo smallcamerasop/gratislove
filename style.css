@@ -5,6 +5,10 @@
   font-style: normal;
 }
 
+/* 全站隱藏頁面捲軸（仍可捲動） */
+html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+
 .courier-prime-regular {
   font-family: "Courier Prime", monospace;
   font-weight: 400;
