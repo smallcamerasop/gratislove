@@ -148,3 +148,31 @@ document.addEventListener('DOMContentLoaded', () => {
   updateScrollHint();
   window.addEventListener('scroll', updateScrollHint);
 });
+// 手機開啟時顯示提示：建議用電腦觀看（每次瀏覽只出現一次）
+document.addEventListener("DOMContentLoaded", () => {
+  const isMobile =
+    window.matchMedia("(max-width: 768px)").matches ||
+    /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  if (!isMobile) return;
+
+  try {
+    if (sessionStorage.getItem("desktopNoticeSeen")) return;
+  } catch (e) {}
+
+  const notice = document.createElement("div");
+  notice.className = "desktop-notice";
+  notice.innerHTML = `
+    <div class="desktop-notice-box" role="dialog" aria-modal="true" aria-labelledby="desktopNoticeText">
+      <p id="desktopNoticeText">♥︎ For the best experience, we recommend viewing this website on a computer. ♥︎</p>
+      <button type="button" class="desktop-notice-close">Continue anyway</button>
+    </div>
+  `;
+  document.body.appendChild(notice);
+
+  notice.querySelector(".desktop-notice-close").addEventListener("click", () => {
+    notice.remove();
+    try {
+      sessionStorage.setItem("desktopNoticeSeen", "1");
+    } catch (e) {}
+  });
+});

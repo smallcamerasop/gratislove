@@ -723,3 +723,37 @@ footer.object-caption.hidden {
 .text-column::-webkit-scrollbar {
   display: none;
 }
+
+/* 手機開啟時的提示視窗：建議用電腦觀看 */
+.desktop-notice {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  background: rgba(0, 0, 0, 0.4);
+}
+.desktop-notice-box {
+  max-width: 320px;
+  padding: 27px 22px;
+  background: white;
+  border: 1px solid black;
+  font-family: "Courier Prime", Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+}
+.desktop-notice-box p {
+  margin: 0 0 18px;
+}
+.desktop-notice-close {
+  padding: 6px 14px;
+  border: 1px solid black;
+  background: white;
+  color: black;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
