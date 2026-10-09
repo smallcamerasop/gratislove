@@ -96,7 +96,7 @@ pre {
   background-color: rgb(195, 237, 244);
 }
 
-/* recipes.html：分類之間留固定間距，分類標題緊貼下方的菜名 */
+
 .recipe-group + .recipe-group {
   margin-top: 2.5em;
 }
@@ -107,7 +107,7 @@ pre {
   margin: 0;
   line-height: 2;
 }
-/* recipes.html 右側的筆記本，位置與 participants 的預覽圖相同 */
+
 .recipe-book {
   position: fixed;
   top: 135px;
@@ -120,15 +120,14 @@ pre {
   justify-content: center;
   z-index: 1;
 }
-/* 所有頁面用同一個高度：封面 / 封底（直式單頁）與內頁（橫式跨頁）一樣高。
-   高度取「區塊高度」與「區塊寬度 ÷ 最寬內頁比例 1.56」中較小者，確保最寬的跨頁也放得下 */
+
 .recipe-book-page {
   display: block;
   height: min(calc(100vh - 198px), calc((50vw - 108px) / 1.56));
   width: auto;
 }
 
-/* 每道菜名不在中間斷行 */
+
 .recipe-list span {
   white-space: nowrap;
 }

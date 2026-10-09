@@ -39,6 +39,7 @@
   h1 { position: fixed; top: 99px; left: 63px; width: var(--text-col-width); text-align: center; z-index: 2; font-size: 16px; margin: 0; }
   .item-container { display: block; }
   .item-spacer { display: none; }
+  .text-column { position: fixed; top: 135px; left: 63px; width: var(--text-col-width); line-height: 1.5; padding-right: 18px; box-sizing: border-box; z-index: 2; max-height: calc(100vh - 198px); overflow-y: auto; scrollbar-width: none; }
   .item-image { display: contents; }
 
   /* 圖片可拖移、可用把手旋轉，放置於頁面任何位置 */
@@ -111,7 +112,10 @@
 
     <div class="content-wrapper">
       <div class="item-container">
-        <div class="item-label"><p>01</p></div>
+        <div class="text-column">
+          <p><span>I was inspired to cook this cake following the recipes in the book... I would like to add it as a bookmark if possible. The thing is I never follow the recipes exactly!</span></p>
+          <p><span>So it started as a toffee cashew dessert and ended up being a nut cake :)</span></p>
+        </div>
         <div class="item-image">
           <div class="drag-rotate-box" id="dragBox">
             <img src="../img/works/ 15_Valeria Leiva/01.jpg" alt="Valeria work 1" class="work-image">
@@ -122,6 +126,10 @@
       </div>
     </div>
 </main>
+    <!-- 左下角 footer -->
+    <footer>
+      <p>Recipe: Toffee cashew</p>
+    </footer>
     <!-- navigation -->
    <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
@@ -146,16 +154,18 @@
 
     let angle = 40;
 
+    // 用未旋轉的尺寸（offsetWidth/Height）計算位置，與 style.left/top 一致
     const setInitialPosition = () => {
-      const rect = box.getBoundingClientRect();
       const centerX = window.innerWidth * 0.72;
       const centerY = window.innerHeight / 2;
-      box.style.left = (centerX - rect.width / 2) + 'px';
-      box.style.top = (centerY - rect.height / 2) + 'px';
+      box.style.left = (centerX - box.offsetWidth / 2) + 'px';
+      box.style.top = (centerY - box.offsetHeight / 2) + 'px';
     };
 
     box.style.transform = `rotate(${angle}deg)`;
     setInitialPosition();
+    const img = box.querySelector('img');
+    if (img && !img.complete) img.addEventListener('load', setInitialPosition, { once: true });
 
     let dragging = false;
     let rotating = false;
@@ -165,9 +175,9 @@
     box.addEventListener('mousedown', (e) => {
       dragging = true;
       box.classList.add('dragging');
-      const rect = box.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
+      // 以 style.left/top 為基準算偏移，避免旋轉後的外框造成點擊時跳位
+      offsetX = e.clientX - parseFloat(box.style.left);
+      offsetY = e.clientY - parseFloat(box.style.top);
       e.preventDefault();
     });
 
