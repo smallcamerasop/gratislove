@@ -10,38 +10,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-  .content-wrapper {
-    margin-top: 90px;
-    font-family: "Courier Prime", monospace;
+  .content-wrapper { margin-top: 90px; }
+  h1 {
+    position: fixed;
+    top: 99px;
+    left: 63px;
+    width: var(--text-col-width);
+    text-align: center;
+    z-index: 2;
+    font-size: 16px;
+    margin: 0;
   }
-  .item-container {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 45px;
-  }
-  .item-label {
-    flex: 1;
-    padding-right: 18px;
-  }
+  .item-container { margin-bottom: 45px; }
   .item-image {
-    flex: 1;
     display: flex;
     justify-content: center;
+    margin-left: calc(50vw - 18px);
   }
-  .item-image img {
-    max-width: 100%;
-    height: auto;
-  }
-  .item-spacer {
-    flex: 1;
-  }
-
-  h1 { position: fixed; top: 99px; left: 63px; width: var(--text-col-width); text-align: center; z-index: 2; font-size: 16px; margin: 0; }
-  .item-container { display: block; }
-  .item-spacer { display: none; }
-  .item-image { display: flex; justify-content: center; margin-left: calc(50vw - 18px); }
-
-  /* 限制圖片高度，讓整頁內容不超過一個視窗，不需要上下捲動 */
   body { overflow: hidden; }
   .item-image img {
     max-width: 100%;
@@ -52,7 +37,6 @@
 </style>
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -65,7 +49,6 @@
 <script src="../script.js"></script>
 
 <body class="axel-page">
-     <!-- top navigation -->
   <nav class="top-links">
     <a href="../index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
@@ -73,31 +56,23 @@
     <a href="../imprint.html">(IMPRINT)</a>
   </nav>
 
-  <!-- main content -->
    <main class="container">
      <h1>Axel</h1>
 
     <div class="content-wrapper">
       <div class="item-container">
-        <div class="item-label"><p>01</p></div>
         <div class="item-image"><img src="../img/works/02_Axel/01.jpg" alt="Axel work 1" class="work-image"></div>
-        <div class="item-spacer"></div>
       </div>
     </div>
 </main>
-    <!-- 左下角 footer -->
     <footer>
       <p>Recipe: Halwa carrots</p>
     </footer>
-    <!-- navigation -->
      <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
   <p><a href="../workshop.html">WORKSHOP</a></p>
 </section>
-
-
-
 
 <div id="lightbox" class="lightbox">
   <span class="close-lightbox">&times;</span>

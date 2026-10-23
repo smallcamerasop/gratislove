@@ -10,55 +10,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-  .content-wrapper {
-    margin-top: 90px;
-    font-family: "Courier Prime", monospace;
-  }
-  .main-content-container {
-    display: flex;
-    gap: 18px;
-  }
-  .text-content {
+  .item-image img { width: 100%; height: auto; }
+  h1 {
+    position: fixed;
+    top: 99px;
+    left: 63px;
     width: var(--text-col-width);
-    line-height: 1.5;
-  }
-  .text-content pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    text-align: center;
+    z-index: 2;
+    font-size: 16px;
+    margin: 0;
   }
   .image-gallery {
-    flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 9px;
+    margin-left: calc(50vw - 18px);
   }
-  .item-image img {
-    width: 100%;
-    height: auto;
-  }
-
-  h1 { position: fixed; top: 99px; left: 63px; width: var(--text-col-width); text-align: center; z-index: 2; font-size: 16px; margin: 0; }
-  .text-content { position: fixed; top: 135px; left: 63px; z-index: 2; max-height: calc(100vh - 198px); overflow-y: auto; scrollbar-width: none; }
-  .image-gallery { flex: none; margin-left: calc(50vw - 18px); }
-  .main-content-container { display: block; }
-
-  /* 拉開 02 系列與 03 系列之間的距離 */
-  .image-gallery .item-image:nth-child(5),
-  .image-gallery .item-image:nth-child(6) {
-    margin-top: 54px;
-  }
-
-  /* 01 系列改成左側幻燈片，一次顯示一張，下方圓點表示目前第幾張、可點擊切換 */
+  .image-gallery .item-image:nth-child(5), .image-gallery .item-image:nth-child(6) { margin-top: 54px; }
   .slideshow {
     position: fixed;
     top: 135px;
-    bottom: 81px; /* 底部留空間給左下角 footer，不重疊 */
-    left: calc(63px + var(--text-col-width) / 2); /* 左側文字欄的水平中心 */
+    bottom: 81px;
+    left: calc(63px + var(--text-col-width) / 2);
     transform: translateX(-50%);
     width: min(450px, var(--text-col-width));
     z-index: 2;
   }
-  /* 圖片區域：底部預留圓點的空間，圖片在區域內上下置中 */
   .slideshow-images {
     position: absolute;
     top: 0;
@@ -76,10 +54,7 @@
     object-fit: contain;
     opacity: 0;
   }
-  .slideshow-images img.active {
-    opacity: 1;
-  }
-  /* 圓點的垂直位置由 JS 依目前圖片實際顯示的底邊計算 */
+  .slideshow-images img.active { opacity: 1; }
   .slideshow-dots {
     position: absolute;
     left: 0;
@@ -95,13 +70,10 @@
     border: 1px solid black;
     cursor: url('../img/cursor-pointer.png'), pointer;
   }
-  .slideshow-dot.active {
-    background: black;
-  }
+  .slideshow-dot.active { background: black; }
 </style>
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -114,7 +86,6 @@
 <script src="../script.js"></script>
 
 <body class="emily-randlkofer-page">
-     <!-- top navigation -->
   <nav class="top-links">
     <a href="../index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
@@ -122,7 +93,6 @@
     <a href="../imprint.html">(IMPRINT)</a>
   </nav>
 
-  <!-- main content -->
    <main class="container">
      <h1>Emily Randlkofer</h1>
 
@@ -146,23 +116,16 @@
         <div class="item-image"><img src="../img/works/04_Emily Randlkofer/03-3.jpg" alt="Emily Randlkofer work 11" class="work-image"></div>
         <div class="item-image"><img src="../img/works/04_Emily Randlkofer/03-4.jpg" alt="Emily Randlkofer work 12" class="work-image"></div>
       </div>
-    </div>
 </main>
 
-    <!-- 左下角 footer -->
     <footer>
       <p>Recipe: Roast Chicken, Chickoo Ice cream</p>
     </footer>
-    <!-- navigation -->
       <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
   <p><a href="../workshop.html">WORKSHOP</a></p>
 </section>
-
-
-
-
 
 <div id="lightbox" class="lightbox">
   <span class="close-lightbox">&times;</span>
@@ -179,7 +142,6 @@
 
     let current = 0;
 
-    // 每張圖一個圓點
     const dots = Array.from(slides, (_, i) => {
       const dot = document.createElement('span');
       dot.className = 'slideshow-dot';
@@ -197,8 +159,6 @@
       placeDots();
     }
 
-    // 圓點固定在「最高那張圖」（直式的 01-2 ~ 01-4）實際顯示範圍的底邊下方 14px，
-    // 換到較矮的橫圖時圓點不跟著移動
     const DOT_GAP = 14;
     function placeDots() {
       const boxW = imagesEl.clientWidth;

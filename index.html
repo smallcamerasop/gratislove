@@ -11,7 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -25,36 +24,27 @@
 <script src="script.js"></script>
 
 <body id="index-page">
-     <!-- top navigation -->
   <nav class="top-links">
     <a href="index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
     <a href="get-involved.html">(GET INVOLVED)</a>
     <a href="imprint.html">(IMPRINT)</a>
-    
   </nav>
 
-  <!-- notebook view (hidden by default) -->
 <div id="notebookView" class="notebook-view">
   <div class="close-btn" id="closeBtn">(X)</div>
   <div class="image-wrapper" id="imageWrapper">
     <img src="img/pages/00.jpg" alt="Base Page" id="notebookImg" class="base-layer">
-    <img src="img/works/01-1.jpg" id="leftOverlay" class="overlay-layer left">
-  <img src="img/works/01-2.jpg" id="rightOverlay" class="overlay-layer right">
   </div>
-  <div class="page-counter" id="pageCounter">1 / 3</div> 
+  <div class="page-counter" id="pageCounter">1 / 3</div>
 </div>
 
-
-  <!-- main content -->
    <main class="container">
-    <!-- left text -->
     <section class="project-text">
       <p class="publication-no">PUBLICATION NO. 01</p>
       <p class="publication-title">~ COOKING IN MINUTES ~</p>
       <p>A collective art book, born from a notebook of handwritten recipes found on the street.</p>
 
-      <!-- OUR PURPOSE 區塊往下移，標題與中間直式導覽 RECIPES 的「R」對齊（位置由下方 JS 計算） -->
       <div class="purpose-block" id="purposeBlock">
         <p class="section-title">OUR PURPOSE</p>
         <p>To not let individuals feel overshadowed by centralized voices, we decided to create a(nother) platform for u to share what’s on your mind(perspective), at the same time, within a framework to create connections between people.
@@ -62,22 +52,18 @@
       </div>
 
     </section>
-    <!-- right image -->
      <section class="object-area">
-        <img 
-        src="img/gratisbox.png" 
-        alt="gratisbox" 
+        <img
+        src="img/gratisbox.png"
+        alt="gratisbox"
         class="notebook-cover"
         id="openNotebook"
-        style="cursor: pointer;"
         />
     </section>
 
-    <!-- image grid section -->
 <section class="image-grid">
   </section>
 
-    <!-- index-links section -->
    <section class="index-links style-absolute">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
@@ -85,26 +71,16 @@
 </section>
 </main>
 
-
-
- 
-
-    
-<!-- footer -->
-
     <footer id="scrollHint">
       <p>(SCROLL DOWN TO SEE THE GALLERY)</p>
     </footer>
 
-    <!-- 右側圖片區的 footer -->
     <footer class="object-caption">
       <p>The found notebook.</p>
       <p>[Basel, 2025]</p>
     </footer>
 
-
 <script>
-  // 讓 OUR PURPOSE 標題與直式導覽 RECIPES 的第一個字母「R」垂直置中對齊
   (() => {
     const block = document.getElementById('purposeBlock');
     const title = block && block.querySelector('.section-title');
@@ -116,14 +92,13 @@
       block.style.marginTop = '0px';
       const rRect = r.getBoundingClientRect();
       const tRect = title.getBoundingClientRect();
-      // 以頁面頂端（未捲動）為準計算位置
       const rCenter = rRect.top + rRect.height / 2;
       const tCenter = tRect.top + window.scrollY + tRect.height / 2;
       block.style.marginTop = Math.max(0, rCenter - tCenter) + 'px';
     };
 
     document.addEventListener('DOMContentLoaded', align);
-    window.addEventListener('load', align); // 字體載入後再算一次
+    window.addEventListener('load', align);
     window.addEventListener('resize', align);
   })();
 </script>

@@ -10,42 +10,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-  .content-wrapper {
-    margin-top: 90px;
-    font-family: "Courier Prime", monospace;
-  }
-  .main-content-container {
-    display: flex;
-    gap: 18px;
-  }
-  .text-content {
+  h1 {
+    position: fixed;
+    top: 99px;
+    left: 63px;
     width: var(--text-col-width);
-    line-height: 1.5;
+    text-align: center;
+    z-index: 2;
+    font-size: 16px;
+    margin: 0;
   }
-  .text-content pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-  .image-gallery {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 9px;
-  }
-  .item-image img {
-    width: 100%;
-    height: auto;
-  }
-
-  h1 { position: fixed; top: 99px; left: 63px; width: var(--text-col-width); text-align: center; z-index: 2; font-size: 16px; margin: 0; }
-  .main-content-container { display: block; }
-
-  /* 不上下捲動，01 放左側、02 放右側，各自置中在半邊視窗內 */
   body { overflow: hidden; }
-  .image-gallery {
-    display: block;
-    margin-left: 0;
-  }
   .item-image {
     position: fixed;
     top: 0;
@@ -54,14 +29,8 @@
     align-items: center;
     justify-content: center;
   }
-  .item-image:nth-of-type(1) {
-    left: 63px;
-    right: calc(50vw + 45px);
-  }
-  .item-image:nth-of-type(2) {
-    left: calc(50vw + 45px);
-    right: 63px;
-  }
+  .item-image:nth-of-type(1) { left: 63px; right: calc(50vw + 45px); }
+  .item-image:nth-of-type(2) { left: calc(50vw + 45px); right: 63px; }
   .item-image img {
     width: auto;
     height: auto;
@@ -71,7 +40,6 @@
 </style>
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -84,7 +52,6 @@
 <script src="../script.js"></script>
 
 <body class="hidomi-page">
-     <!-- top navigation -->
   <nav class="top-links">
     <a href="../index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
@@ -92,7 +59,6 @@
     <a href="../imprint.html">(IMPRINT)</a>
   </nav>
 
-  <!-- main content -->
       <main class="container">
      <h1>Hidomi</h1>
 
@@ -103,16 +69,11 @@
       </div>
     </div>
 </main>
-    <!-- navigation -->
    <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
   <p><a href="../workshop.html">WORKSHOP</a></p>
 </section>
-
-
-
-
 
 <div id="lightbox" class="lightbox">
   <span class="close-lightbox">&times;</span>

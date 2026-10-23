@@ -11,7 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -23,10 +22,8 @@
 
 <script src="script.js"></script>
 
-<body>
-  <body class="workshop-page">
-  
-     <!-- top navigation -->
+<body class="workshop-page">
+
   <nav class="top-links">
     <a href="index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
@@ -34,17 +31,14 @@
     <a href="imprint.html">(IMPRINT)</a>
   </nav>
 
-  <!-- main content -->
    <main class="container">
-    <!-- left text -->
     <section class="project-text">
       <h1>WORKSHOP DOCUMENTATION</h1>
       <p>
       Fragmented schedules, relationships, experiences, memories, information……
       This is one way to look at the Collage, yes. But if you think outside of an individual scenario?
-      Each one of us, separate backgrounds, chopped schedules, butchered passions, cut up…… meeting on the same plate, glued into the same sheet of paper. 
+      Each one of us, separate backgrounds, chopped schedules, butchered passions, cut up…… meeting on the same plate, glued into the same sheet of paper.
       </p>
-      <!-- PARTICIPANTS 開頭與中間直式導覽 RECIPES 的「R」對齊（位置由下方 JS 計算） -->
       <div class="workshop-info" id="workshopInfo">
         <p>PARTICIPANTS</p>
         <p>Deniz çalışkan, Hsiao-Yen Yao, Lucie Lin, Nana Ehrsam, Yuh-Chyi Liou</p>
@@ -60,8 +54,7 @@
       <img src="img/works/17_workshop/post-03.png" alt="Workshop image 3" class="work-image">
       <img src="img/works/17_workshop/post-04.png" alt="Workshop image 4" class="work-image">
     </div>
-    
-    <!-- bottom left navigation -->
+
    <section class="index-links style-absolute">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
@@ -70,13 +63,7 @@
 
 </main>
 
-    <footer>
-      <p></p>
-    </footer>
-
 <script>
-  // 讓「PARTICIPANTS」與直式導覽 RECIPES 的第一個字母「R」垂直置中對齊
-  // （文字區是 position: fixed，直接用視窗座標比較，不需加上捲動距離）
   (() => {
     const block = document.getElementById('workshopInfo');
     const title = block && block.querySelector('p');
@@ -93,7 +80,7 @@
     };
 
     document.addEventListener('DOMContentLoaded', align);
-    window.addEventListener('load', align); // 字體載入後再算一次
+    window.addEventListener('load', align);
     window.addEventListener('resize', align);
   })();
 </script>

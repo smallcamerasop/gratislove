@@ -10,47 +10,27 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-  .content-wrapper {
-    margin-top: 90px;
-    font-family: "Courier Prime", monospace;
+  .content-wrapper { margin-top: 90px; }
+  .item-image { display: flex; justify-content: center; }
+  .item-image img { max-width: 100%; height: auto; }
+  h1 {
+    position: fixed;
+    top: 99px;
+    left: 63px;
+    width: var(--text-col-width);
+    text-align: center;
+    z-index: 2;
+    font-size: 16px;
+    margin: 0;
   }
-  .item-container {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 45px;
-  }
-  .item-label {
-    flex: 1;
-    padding-right: 18px;
-  }
-  .item-image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-  }
-  .item-image img {
-    max-width: 100%;
-    height: auto;
-  }
-  .item-spacer {
-    flex: 1;
-  }
-
-  h1 { position: fixed; top: 99px; left: 63px; width: var(--text-col-width); text-align: center; z-index: 2; font-size: 16px; margin: 0; }
-  .item-container { display: block; }
-  .item-spacer { display: none; }
-
-  /* 第一張圖固定在左側 */
+  .item-container { margin-bottom: 45px; }
   .item-container:nth-of-type(1) .item-image {
     position: fixed;
     top: 0;
     left: 63px;
     right: calc(50vw + 45px);
     height: 100vh;
-    margin-left: 0;
-    display: flex;
     align-items: center;
-    justify-content: center;
   }
   .item-container:nth-of-type(1) .item-image img {
     width: auto;
@@ -58,16 +38,8 @@
     max-width: min(495px, calc(50vw - 144px));
     max-height: min(85vh, calc(100vh - 270px));
   }
-
-  /* 第二、三張圖放右側，可上下捲動 */
-  .item-container:nth-of-type(2) .item-image,
-  .item-container:nth-of-type(3) .item-image {
-    display: flex;
-    justify-content: center;
-    margin-left: calc(50vw - 18px);
-  }
-  .item-container:nth-of-type(2) .item-image img,
-  .item-container:nth-of-type(3) .item-image img {
+  .item-container:nth-of-type(2) .item-image, .item-container:nth-of-type(3) .item-image { margin-left: calc(50vw - 18px); }
+  .item-container:nth-of-type(2) .item-image img, .item-container:nth-of-type(3) .item-image img {
     width: 100%;
     height: auto;
     max-width: min(495px, calc(50vw - 81px));
@@ -75,7 +47,6 @@
 </style>
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -88,7 +59,6 @@
 <script src="../script.js"></script>
 
 <body class="lena-lacrabere-page">
-     <!-- top navigation -->
   <nav class="top-links">
     <a href="../index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
@@ -96,39 +66,28 @@
     <a href="../imprint.html">(IMPRINT)</a>
   </nav>
 
-  <!-- main content -->
    <main class="container">
      <h1>Léna Lacrabère</h1>
 
     <div class="content-wrapper">
       <div class="item-container">
-        <div class="item-label"><p>Blessings</p></div>
         <div class="item-image"><img src="../img/works/07_Lena_Lacrabere/01.jpg" alt="Léna Lacrabère work 1" class="work-image"></div>
-        <div class="item-spacer"></div>
       </div>
       <div class="item-container">
-        <div class="item-label"><p>Puffs</p></div>
         <div class="item-image"><img src="../img/works/07_Lena_Lacrabere/02.jpg" alt="Léna Lacrabère work 2" class="work-image"></div>
-        <div class="item-spacer"></div>
       </div>
       <div class="item-container">
-        <div class="item-label"><p>Upu Mau</p></div>
         <div class="item-image"><img src="../img/works/07_Lena_Lacrabere/03.jpg" alt="Léna Lacrabère work 3" class="work-image"></div>
-        <div class="item-spacer"></div>
       </div>
     </div>
 
-    <!-- navigation -->
     <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
   <p><a href="../workshop.html">WORKSHOP</a></p>
 </section>
 
-
 </main>
-
-
 
 <div id="lightbox" class="lightbox">
   <span class="close-lightbox">&times;</span>

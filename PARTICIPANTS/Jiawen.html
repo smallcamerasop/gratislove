@@ -10,56 +10,49 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-  .content-wrapper {
-    margin-top: 90px;
-    font-family: "Courier Prime", monospace;
+  .content-wrapper { margin-top: 90px; }
+  h1 {
+    position: fixed;
+    top: 99px;
+    left: 63px;
+    width: var(--text-col-width);
+    text-align: center;
+    z-index: 2;
+    font-size: 16px;
+    margin: 0;
   }
-  .item-container {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 45px;
-  }
-  .item-label {
-    flex: 1;
+  .text-column {
+    position: fixed;
+    top: 135px;
+    left: 63px;
+    width: var(--text-col-width);
+    line-height: 1.5;
     padding-right: 18px;
+    z-index: 2;
+    max-height: calc(100vh - 198px);
+    overflow-y: auto;
+    scrollbar-width: none;
   }
+  .item-container { margin-bottom: 45px; }
   .item-image {
-    flex: 1;
     display: flex;
     justify-content: center;
-  }
-  .item-image img {
-    max-width: 100%;
-    height: auto;
-  }
-  .item-spacer {
-    flex: 1;
-  }
-
-  h1 { position: fixed; top: 99px; left: 63px; width: var(--text-col-width); text-align: center; z-index: 2; font-size: 16px; margin: 0; }
-  .text-column { position: fixed; top: 135px; left: 63px; width: var(--text-col-width); line-height: 1.5; padding-right: 18px; z-index: 2; max-height: calc(100vh - 198px); overflow-y: auto; scrollbar-width: none; }
-  .item-container { display: block; }
-  .item-spacer { display: none; }
-  .item-image { display: flex; justify-content: center; margin-left: calc(50vw - 18px); }
-
-  /* 作品固定在右半邊，於視窗中上下置中 */
-  .item-image {
     position: fixed;
     top: 0;
     bottom: 0;
     left: calc(50vw + 45px);
     right: 63px;
-    margin-left: 0;
     align-items: center;
   }
   .item-image img {
+    max-width: 100%;
+    height: auto;
     width: auto;
-    max-height: calc(100vh - 126px); /* 視窗變矮時跟著縮小，不碰到上方導覽 */
+    max-height: calc(100vh - 126px);
   }
 </style>
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -72,7 +65,6 @@
 <script src="../script.js"></script>
 
 <body class="jiawen-page">
-     <!-- top navigation -->
   <nav class="top-links">
     <a href="../index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
@@ -80,7 +72,6 @@
     <a href="../imprint.html">(IMPRINT)</a>
   </nav>
 
-  <!-- main content -->
    <main class="container">
      <h1>Jiawen Mei</h1>
 
@@ -90,35 +81,21 @@
         <p><span>Eat more brain food to grow my brain, and avoid touching other things that trigger my sensory overload.</span></p>
       </div>
       <div class="item-container">
-        <div class="item-label"><p>01</p></div>
         <div class="item-image">
           <iframe src="../img/works/22_Jiawen/fry_my_brain.html" style="width: 100%; height: 450px; border: none;"></iframe>
         </div>
       </div>
-      <div class="item-container">
-        <div class="item-label"><p>02</p></div>
-        <div class="item-spacer"></div>
-      </div>
-      <div class="item-container">
-        <div class="item-label"><p>03</p></div>
-        <div class="item-spacer"></div>
-      </div>
     </div>
 </main>
 
-    <!-- 左下角 footer -->
     <footer>
       <p>Recipe: Fried Brain</p>
     </footer>
-    <!-- navigation -->
     <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
   <p><a href="../workshop.html">WORKSHOP</a></p>
 </section>
-
-
-
 
 <div id="lightbox" class="lightbox">
   <span class="close-lightbox">&times;</span>

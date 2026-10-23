@@ -10,42 +10,35 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-  .content-wrapper {
-    margin-top: 90px;
-    font-family: "Courier Prime", monospace;
-  }
-  .two-column-container {
-    display: flex;
+  .content-wrapper { margin-top: 90px; }
+  h1 {
+    position: fixed;
+    top: 99px;
+    left: 63px;
+    width: var(--text-col-width);
+    text-align: center;
+    z-index: 2;
+    font-size: 16px;
+    margin: 0;
   }
   .text-column {
     width: var(--text-col-width);
     line-height: 1.5;
-    flex-shrink: 0;
     padding-right: 18px;
+    position: fixed;
+    top: 135px;
+    left: 63px;
+    z-index: 2;
+    max-height: calc(100vh - 198px);
+    overflow-y: auto;
+    scrollbar-width: none;
   }
   .image-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .image-column img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 18px;
-  }
-  h1 { position: fixed; top: 99px; left: 63px; width: var(--text-col-width); text-align: center; z-index: 2; font-size: 16px; margin: 0; }
-  .two-column-container { display: block; }
-  .text-column { position: fixed; top: 135px; left: 63px; z-index: 2; max-height: calc(100vh - 198px); overflow-y: auto; scrollbar-width: none; }
-
-  /* 圖片改成堆疊：固定在右側，捲動時第二、三張依序疊上來 */
-  .image-column {
-    display: block;
     position: fixed;
     top: 135px;
     left: calc(50vw - 18px);
     right: 63px;
     height: calc(100vh - 171px);
-    margin-left: 0;
   }
   .image-stack {
     position: relative;
@@ -58,21 +51,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    max-width: none;
     object-fit: contain;
-    margin-bottom: 0;
     opacity: 0;
-    mix-blend-mode: multiply; /* 疊圖時用 multiply 讓圖層融合，而不是單純蓋過去 */
+    mix-blend-mode: multiply;
     transition: opacity 0.6s ease;
   }
-  .image-column img.active {
-    opacity: 1;
-  }
-  .image-scroll-spacer {
-    height: 300vh; /* 每張圖片對應約一個視窗高度的捲動距離 */
-  }
-
-  /* 圖片右側的圓點進度條：已出現的圖片為實心，其餘為空心 */
+  .image-column img.active { opacity: 1; }
+  .image-scroll-spacer { height: 300vh; }
   .stack-dots {
     position: fixed;
     top: calc(135px + (100vh - 171px) / 2);
@@ -93,14 +78,11 @@
     cursor: pointer;
     transition: background 0.3s ease;
   }
-  .stack-dots button.active {
-    background: black;
-  }
+  .stack-dots button.active { background: black; }
 </style>
 
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -113,7 +95,6 @@
 <script src="../script.js"></script>
 
 <body class="linus-finn-page">
-     <!-- top navigation -->
   <nav class="top-links">
     <a href="../index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
@@ -121,7 +102,6 @@
     <a href="../imprint.html">(IMPRINT)</a>
   </nav>
 
-  <!-- main content -->
    <main class="container">
      <h1>Linus Finn</h1>
 
@@ -150,19 +130,14 @@
     </div>
 </main>
 
-    <!-- 左下角 footer -->
     <footer>
       <p>Recipe: Broken Egg Curry, Croquettes</p>
     </footer>
-    <!-- navigation -->
   <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
   <p><a href="../workshop.html">WORKSHOP</a></p>
 </section>
-
-
-
 
 <div id="lightbox" class="lightbox">
   <span class="close-lightbox">&times;</span>
@@ -187,7 +162,6 @@
       dots.forEach((dot, i) => dot.classList.toggle('active', i <= index));
     };
 
-    // 點圓點捲動到對應圖片
     dots.forEach((dot, i) => {
       dot.addEventListener('click', () => {
         const spacerTop = spacer.getBoundingClientRect().top + window.scrollY;

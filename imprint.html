@@ -11,7 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -24,7 +23,6 @@
 <script src="script.js"></script>
 
 <body class="imprint-page">
-     <!-- top navigation -->
   <nav class="top-links">
     <a href="index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
@@ -32,15 +30,13 @@
     <a href="imprint.html">(IMPRINT)</a>
   </nav>
 
-  <!-- main content -->
    <main class="container">
-    <!-- left text -->
     <section class="project-text">
        <div class="space-1"></div>
 
         <p>PROJECT INITIATORS</p>
          <p class="initiators">
-            <a href="https://www.instagram.com/yunns.w/"> Lucie Lin</a> 
+            <a href="https://www.instagram.com/yunns.w/"> Lucie Lin</a>
             &
              <a href="https://www.instagram.com/small__salt_16/">Hsiao-Yen Yao</a>
             </p>
@@ -49,14 +45,12 @@
 
         <p>Basel, Switzerland</p>
 
-        <!-- COPYRIGHT 與中間直式導覽 RECIPES 的「R」對齊（位置由下方 JS 計算，取代原本的 4 個 space-1） -->
         <div class="copyright-block" id="copyrightBlock">
           <p>COPYRIGHT</p>
           <p>All content, images, and texts on this website are protected by copyright unless otherwise stated. Contributions remain the property of their respective authors.</p>
         </div>
     </section>
-    
-    <!-- bottom left navigation -->
+
    <section class="index-links style-absolute">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
@@ -70,14 +64,11 @@
 <p>Design & Code: Lucie Lin</p>
     </footer>
 
-    <!-- 右側置中圖片 -->
     <img src="img/YA.jpg" alt="GRATIS LOVE" class="imprint-corner-image">
 
-    <!-- 右下角傾斜文字 -->
     <p class="imprint-bon-appetit">\ Bon Appétit /</p>
 
 <script>
-  // 讓「COPYRIGHT」與直式導覽 RECIPES 的第一個字母「R」垂直置中對齊
   (() => {
     const block = document.getElementById('copyrightBlock');
     const title = block && block.querySelector('p');
@@ -95,7 +86,7 @@
     };
 
     document.addEventListener('DOMContentLoaded', align);
-    window.addEventListener('load', align); // 字體載入後再算一次
+    window.addEventListener('load', align);
     window.addEventListener('resize', align);
   })();
 </script>

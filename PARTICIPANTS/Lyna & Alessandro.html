@@ -10,44 +10,39 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-  .content-wrapper {
-    margin-top: 90px;
-    font-family: "Courier Prime", monospace;
-  }
-  .main-content-container {
-    display: flex;
-    gap: 18px;
+  .text-content pre { white-space: pre-wrap; word-wrap: break-word; }
+  .item-image img { width: 100%; height: auto; }
+  .index-links p { margin: 5px 0; }
+  h1 {
+    position: fixed;
+    top: 99px;
+    left: 63px;
+    width: var(--text-col-width);
+    text-align: center;
+    z-index: 2;
+    font-size: 16px;
+    margin: 0;
   }
   .text-content {
     width: var(--text-col-width);
     line-height: 1.5;
-  }
-  .text-content pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    position: fixed;
+    top: 135px;
+    left: 63px;
+    z-index: 2;
+    max-height: calc(100vh - 198px);
+    overflow-y: auto;
+    scrollbar-width: none;
   }
   .image-gallery {
-    flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 9px;
+    margin-left: calc(50vw - 18px);
   }
-  .item-image img {
-    width: 100%;
-    height: auto;
-  }
-  .index-links p {
-    margin: 5px 0;
-  }
-
-  h1 { position: fixed; top: 99px; left: 63px; width: var(--text-col-width); text-align: center; z-index: 2; font-size: 16px; margin: 0; }
-  .text-content { position: fixed; top: 135px; left: 63px; z-index: 2; max-height: calc(100vh - 198px); overflow-y: auto; scrollbar-width: none; }
-  .image-gallery { flex: none; margin-left: calc(50vw - 18px); }
-  .main-content-container { display: block; }
 </style>
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -60,7 +55,6 @@
 <script src="../script.js"></script>
 
 <body class="lyna-alessandro-page">
-     <!-- top navigation -->
   <nav class="top-links">
     <a href="../index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
@@ -68,12 +62,11 @@
     <a href="../imprint.html">(IMPRINT)</a>
   </nav>
 
-  <!-- main content -->
    <main class="container">
      <h1>Lyna Beggah & Alessandro Ferrari</h1>
 
     <div class="main-content-container">
-      <div class="text-content" style="font-family: 'Courier Prime', monospace; margin-top: 0px; margin-bottom: 45px;">
+      <div class="text-content" style="margin-top: 0px; margin-bottom: 45px;">
         <pre>The photographs bring into dialogue two culinary books: <i>Grandes Recettes de la Cuisine Algérienne</i> (Youcef Ferhi, 1957) and <i>Le Ricette Regionali Italiane</i> (Anna Gosetti della Salda, 1967). These old volumes, drawn from our family histories and countries of origin, are opened to the recipes for <i>H’Mis</i> and <i>Pappa al Pomodoro</i>, respectively. Both dishes resonate with the concept of the <i>Tomato Soup</i> recipe found in Blanche Vas’s notebook, thereby establishing a culinary and symbolic exchange between the works.
 
 The physical object of the book, as it appears in <i>Cooking in Minutes</i>, <i>Grandes Recettes de la Cuisine Algérienne</i>, and <i>Le Ricette Regionali Italiane</i>, becomes a vehicle for storytelling: stories of families, movement, and cultures that meet and transform within the space of the kitchen. Across time and territory, these three objects have generated moments of encounter, conviviality, and exchange for dozens of people on three different continents.
@@ -100,16 +93,11 @@ We cherish their memory and their history—geographically distant, yet intimate
       </div>
     </div>
 </main>
-    <!-- navigation -->
       <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
   <p><a href="../workshop.html">WORKSHOP</a></p>
 </section>
-
-
-
-
 
 <div id="lightbox" class="lightbox">
   <span class="close-lightbox">&times;</span>

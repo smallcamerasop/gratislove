@@ -16,19 +16,22 @@
     max-width: min(495px, calc(50vw - 144px));
     max-height: min(85vh, calc(100vh - 126px));
   }
-
-  h1 { position: fixed; top: 99px; left: 63px; width: var(--text-col-width); text-align: center; z-index: 2; font-size: 16px; margin: 0; }
-  .item-container { display: block; }
-  .item-spacer { display: none; }
-
-  /* 圖片在右側區塊水平、垂直都置中 */
+  h1 {
+    position: fixed;
+    top: 99px;
+    left: 63px;
+    width: var(--text-col-width);
+    text-align: center;
+    z-index: 2;
+    font-size: 16px;
+    margin: 0;
+  }
   .item-image {
     position: fixed;
     top: 0;
     left: calc(50vw + 45px);
     right: 63px;
     height: 100vh;
-    margin-left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,7 +39,6 @@
 </style>
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PQTT7H8BY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -49,7 +51,6 @@
 <script src="../script.js"></script>
 
 <body class="chesa-page">
-     <!-- top navigation -->
   <nav class="top-links">
     <a href="../index.html" class="home-link">♥︎ GRATIS LOVE ♥︎</a>
     <a href="https://www.instagram.com/smallcameras.op">(INSTAGRAM)</a>
@@ -57,28 +58,20 @@
     <a href="../imprint.html">(IMPRINT)</a>
   </nav>
 
-  <!-- main content -->
    <main class="container">
      <h1>Chesa Cuan</h1>
 
     <div class="content-wrapper">
       <div class="item-container">
-        <div class="item-label"><p>01</p></div>
         <div class="item-image"><img src="../img/works/24_Chesa/Blessing.jpeg" alt="Chesa work 1" class="work-image"></div>
-        <div class="item-spacer"></div>
       </div>
     </div>
 </main>
-    <!-- navigation -->
     <section class="index-links style-fixed-bottom">
   <p><a href="../participants.html">PARTICIPANTS</a></p>
   <p><a href="../recipes.html">RECIPES</a></p>
   <p><a href="../workshop.html">WORKSHOP</a></p>
 </section>
-
-
-
-
 
 <div id="lightbox" class="lightbox">
   <span class="close-lightbox">&times;</span>
