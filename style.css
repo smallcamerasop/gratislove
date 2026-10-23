@@ -58,6 +58,12 @@ body {
   margin: 0;
   font-family: "Courier Prime", monospace;
   background: white;
+  /* 全站底圖：疊在各頁背景色上，固定不隨捲動 */
+  background-image: url('img/BG.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   font-size: 14px;
 }
 
@@ -68,6 +74,7 @@ pre {
 
 .participants-page {
   background-color: rgb(164, 147, 248);
+  background-blend-mode: multiply;
 }
 
 /* 參與者名單：每個名字不在中間斷行 */
@@ -98,6 +105,7 @@ pre {
 
 .recipes-page {
   background-color: rgb(195, 237, 244);
+  background-blend-mode: multiply;
 }
 
 
@@ -138,6 +146,7 @@ pre {
 
 .workshop-page {
   background-color: rgb(216, 236, 177);
+  background-blend-mode: multiply;
 }
 
 .space-1 {
@@ -663,7 +672,6 @@ footer.object-caption.hidden {
 /* get-involved.html：文字區寬度 */
 .get-involved-page .project-text {
   width: var(--text-col-width);
-  display: flow-root; /* 讓 JS 設定的 padding-top 位移準確，不受標題邊距合併影響 */
 }
 .get-involved-page .project-text h1 {
   text-align: center;
