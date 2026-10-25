@@ -41,14 +41,18 @@
 
    <main class="container">
     <section class="project-text">
+      <div class="note-paper">
       <p class="publication-no">PUBLICATION NO. 01</p>
       <p class="publication-title">~ COOKING IN MINUTES ~</p>
-      <p>A collective art book, born from a notebook of handwritten recipes found on the street.</p>
+      <p>In this edition, we are inspired by the spirit shown in the forewords of the found notebook where the author gave their time and efforts of handwritten cooking knowledge wholeheartedly to their dear, and start our journey with the question “Can we make something together?” “How do we make everyone part of it feel seen and their labour acknowledged?”</p>
+<p>With a gathering and apéro as a package with the publication to create a shared experience between the participants, we are given the chance to ponder how these questions can be answered and how the outcome could be……
+</p>
 
       <div class="purpose-block" id="purposeBlock">
         <p class="section-title">OUR PURPOSE</p>
         <p>To not let individuals feel overshadowed by centralized voices, we decided to create a(nother) platform for u to share what’s on your mind(perspective), at the same time, within a framework to create connections between people.
         Most important of all, for all to have fun and enjoyable art experiences!!</p>
+      </div>
       </div>
 
     </section>
@@ -97,9 +101,25 @@
       block.style.marginTop = Math.max(0, rCenter - tCenter) + 'px';
     };
 
-    document.addEventListener('DOMContentLoaded', align);
-    window.addEventListener('load', align);
-    window.addEventListener('resize', align);
+    // Shrink the text until everything fits on the note paper
+    const fit = () => {
+      const paper = block.closest('.note-paper');
+      if (!paper) return;
+      const overflows = () => paper.scrollHeight > paper.clientHeight + 1;
+      let size = 14;
+      paper.style.fontSize = '';
+      align();
+      while (overflows() && size > 9) {
+        size -= 0.5;
+        paper.style.fontSize = size + 'px';
+        align();
+      }
+      if (overflows()) block.style.marginTop = '0px';
+    };
+
+    document.addEventListener('DOMContentLoaded', fit);
+    window.addEventListener('load', fit);
+    window.addEventListener('resize', fit);
   })();
 </script>
 </body>

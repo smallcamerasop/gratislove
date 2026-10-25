@@ -173,6 +173,7 @@ pre {
 #index-page .project-text {
   width: var(--text-col-width);
   min-height: 100vh;
+  margin-top: -63px;
 }
 
 .project-text a {
@@ -507,6 +508,38 @@ footer {
 }
 .publication-no {
   font-size: 11px;
+}
+
+.note-paper {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 1159 / 1422;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 13% 6% 8% 22%;
+}
+
+/* Paper on its own layer so the shadow follows the torn edges, not the text */
+.note-paper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url('img/notebg.png');
+  background-size: cover;
+  background-position: top left;
+  background-repeat: no-repeat;
+  filter:
+    drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.1))
+    drop-shadow(3px 6px 12px rgba(0, 0, 0, 0.08));
+}
+
+/* Span the full paper width so titles centre under the home-link */
+.note-paper .publication-no,
+.note-paper .publication-title,
+.note-paper .section-title {
+  margin-left: -30.556%;
+  margin-right: -8.333%;
 }
 
 .purpose-block,
