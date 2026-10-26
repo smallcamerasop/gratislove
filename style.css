@@ -26,16 +26,33 @@ html, body {
   overflow-x: clip;
 }
 
+/* Stop mobile Safari/Chrome from enlarging text, which pushes it off the note paper */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   font-family: "Courier Prime", monospace;
   background: white;
+  font-size: 14px;
+}
+
+/* Fixed layer instead of background-attachment, which some browsers (e.g. iOS Safari) ignore */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   background-image: url('img/BG.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
-  font-size: 14px;
+  /* Pick up each page's tint (e.g. .participants-page) */
+  background-color: inherit;
+  background-blend-mode: multiply;
+  pointer-events: none;
 }
 
 pre {

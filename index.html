@@ -102,24 +102,28 @@
       block.style.marginTop = Math.max(0, rCenter - tCenter) + 'px';
     };
 
-    // Shrink the text until everything fits on the note paper
+    // Keep everything on the note paper: first give up the RECIPES alignment,
+    // then shrink the text only if it still doesn't fit
     const fit = () => {
       const paper = block.closest('.note-paper');
       if (!paper) return;
-      const overflows = () => paper.scrollHeight > paper.clientHeight + 1;
-      let size = 14;
+      const overflow = () => paper.scrollHeight - paper.clientHeight;
       paper.style.fontSize = '';
       align();
-      while (overflows() && size > 9) {
+      if (overflow() > 1) {
+        const margin = parseFloat(block.style.marginTop) || 0;
+        block.style.marginTop = Math.max(0, margin - overflow()) + 'px';
+      }
+      let size = 14;
+      while (overflow() > 1 && size > 6) {
         size -= 0.5;
         paper.style.fontSize = size + 'px';
-        align();
       }
-      if (overflows()) block.style.marginTop = '0px';
     };
 
     document.addEventListener('DOMContentLoaded', fit);
     window.addEventListener('load', fit);
+    if (document.fonts) document.fonts.ready.then(fit);
     window.addEventListener('resize', fit);
   })();
 </script>
